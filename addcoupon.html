@@ -1,12 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Keepon</title>
+    <title>Keepon</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <a class="nav-link" href="./index.html">Log Out</a>
-  <a class="nav-link" href="./home.html">Home</a>
-  <a class="nav-link" href="./mycoupon.html">My Coupons</a>
-  <a class="nav-link" href="./history.html">History</a>
+    <nav class="navbar navbar-light bg-faded">
+        <a class="navbar-brand" href="home.html">Keepon</a>
+        <a class="navbar-brand" href="index.html">Account</a>
+    </nav>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="addcoupon.html">Add Coupon</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="mycoupon.html">My Coupons</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="history.html">Coupon History</a>
+              </li>
+            </ul>
+        </div>
+        <h1 class="card-title">Add Coupon Details</h1>
+        <container>
+          <div class="col-12">
+            <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Savings</label>
+              <div class="col-10">
+                <input class="form-control" type="text" placeholder="Describe your deal" id="example-text-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Store</label>
+              <div class="col-10">
+                <input class="form-control" type="search" placeholder="ex. Vons, Target, Best Buy" id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-date-input" class="col-2 col-form-label">Date</label>
+              <div class="col-10">
+                <input class="form-control" type="date" value="" id="example-date-input">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleSelect1" class="col-2 col-form-label">Category</label>
+                <div class="col-10">
+                <select class="form-control" id="exampleSelect1">
+                    <option>Choose One</option>
+                    <option>Clothes</option>
+                    <option>Electronics</option>
+                    <option>Entertainment</option>
+                    <option>Food</option>
+                    <option>Furniture</option>
+                    <option>Office</option>
+                    <option>Sports</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Where is the coupon stored?</label>
+              <div class="col-10">
+                <input class="form-control" type="text" placeholder="ex: Wallet, Coupon Drawer, Pocket" id="example-text-input">
+              </div>
+            </div>
+            <div class="form-group row" id="submitButton">
+                <button type="button" class="btn btn-lg">Cancel</button>
+                <button type="button" class="btn btn-lg">Add Coupon</button>
+            </div>
+          </div>
+        </container>
+
+    </div>
+    <div></div>
 </body>
 </html>
