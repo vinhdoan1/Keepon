@@ -9,5 +9,13 @@
 4) Run
 `npm start`  
 
+### How to deploy
+1) Install Firebase tools
+`npm install -g firebase-tools`
+2) Build app for deployment
+`npm run build`
+3) Deploy
+`firebase deploy`
+
 ### Live Page
-(coming)
+http://keepon.cf/
