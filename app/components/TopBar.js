@@ -42,7 +42,8 @@ class TopBar extends React.Component {
     [
       ['Add Coupon', 'addcoupon'],
       ['My Coupons', 'home'],
-      ['Shopping List', 'shoppinglist']
+      ['Shopping List', 'shoppinglist'],
+      ['Discover', 'discover']
     ];
     //var navItemNames = ['Add Coupon', 'My Coupons', 'Shopping List'];
 
