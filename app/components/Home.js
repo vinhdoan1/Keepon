@@ -22,58 +22,45 @@ class Home extends React.Component {
       coupons: [],
       couponsSet: false,
       couponModals:{},
+      searchTerm: "",
     };
 
     this.toggleModal = this.toggleModal.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+  }
+
+  refreshCouponList() {
+    var coupons = api.getCoupons(this.props.userProfile.userID);
+    var couponList = [];
+    var couponModals = {};
+    for (var userID in coupons) {
+      couponList.push({
+        id: userID,
+        savings: coupons[userID].savings,
+        store: coupons[userID].store,
+        date: coupons[userID].date,
+        category: coupons[userID].category,
+        location: coupons[userID].location,
+        used: coupons[userID].used,
+      })
+      couponModals[userID] = false;
+    }
+    this.setState({
+      coupons: couponList,
+      couponModals: couponModals,
+      couponsSet: true,
+    })
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
-      var coupons = api.getCoupons(this.props.userProfile.userID);
-      var couponList = [];
-      var couponModals = {};
-      for (var userID in coupons) {
-        couponList.push({
-          id: userID,
-          savings: coupons[userID].savings,
-          store: coupons[userID].store,
-          date: coupons[userID].date,
-          category: coupons[userID].category,
-          location: coupons[userID].location,
-          used: coupons[userID].used,
-        })
-        couponModals[userID] = false;
-      }
-      this.setState({
-        coupons: couponList,
-        couponModals: couponModals,
-        couponsSet: true,
-      })
+      this.refreshCouponList();
     }
   }
 
   componentDidMount(){
     if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
-      var coupons = api.getCoupons(this.props.userProfile.userID);
-      var couponList = [];
-      var couponModals = {};
-      for (var userID in coupons) {
-        couponList.push({
-          id: userID,
-          savings: coupons[userID].savings,
-          store: coupons[userID].store,
-          date: coupons[userID].date,
-          category: coupons[userID].category,
-          location: coupons[userID].location,
-          used: coupons[userID].used,
-        })
-        couponModals[userID] = false;
-      }
-      this.setState({
-        coupons: couponList,
-        couponModals: couponModals,
-        couponsSet: true,
-      })
+      this.refreshCouponList();
     }
   }
 
@@ -85,6 +72,12 @@ class Home extends React.Component {
     couponModals[userID] = toggle;
     this.setState({
       couponModals: couponModals,
+    })
+  }
+
+  onSearchChange(e) {
+    this.setState({
+      searchTerm: e.target.value,
     })
   }
 
@@ -107,7 +100,17 @@ class Home extends React.Component {
   render() {
     // now a 2 x n array because there are 2 coupons per row
     var couponsPerRow = 2;
-    var columnCouponData = this.nColumnize(couponsPerRow, this.state.coupons);
+
+    var filteredData = this.state.coupons.filter(function(coupon) {
+      return !coupon.used
+    }).filter(function(coupon) {
+      var searchTerm = this.state.searchTerm;
+      if (searchTerm == "")
+        return true;
+      return coupon.savings.includes(searchTerm) || coupon.store.includes(searchTerm);
+    }.bind(this));
+
+    var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
 
     //convert coupon data into component
     var couponComponents = columnCouponData.map(function(couponRow, i) {
@@ -150,6 +153,11 @@ class Home extends React.Component {
                 api.addCouponToShoppingList(this.props.userProfile.userID, id);
                 this.toggleModal(id, false);
               }}>Add to Shopping List</Button>
+              <Button color="primary" onClick={() => {
+                  api.markCoupon(this.props.userProfile.userID, id, true);
+                  this.refreshCouponList();
+                  this.toggleModal(id, false);
+                }}>Use Coupon</Button>
             <Button color="secondary" onClick={() => {this.toggleModal(id, false)}}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -164,7 +172,7 @@ class Home extends React.Component {
             <h1>My Coupons</h1>
             <Row>
               <Col xs={12} sm={12}>
-                <FormGroup>
+                <FormGroup onChange={this.onSearchChange}>
                   <InputGroup>
                     <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
                     <Input placeholder="Search" />
