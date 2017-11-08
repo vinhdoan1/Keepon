@@ -1,39 +1,28 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 import { Nav, NavItem, NavLink} from 'reactstrap';
+import { logout } from "../actions/";
+import { connect } from "react-redux";
 
-
+@connect((store) => {
+  return {
+  }
+})
 class TopBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleSubmit(eventKey) {
-    console.log("TEST");
-    if (eventKey != this.props.selected)
-    {
-      console.log(eventKey);
-      let path = '';
-      if (eventKey === 0)
-        path = '';
-      else if (eventKey == 1) {
-        path = ''
-      }
-      else {
-        path = ''
-      }
-
-      // this.props.history.push({
-      //   pathname: '/' + path,
-      // });
-    }
-
+  handleLogout(e) {
+    this.props.dispatch(logout());
+    this.props.history.push({
+      pathname: '/',
+    });
   }
-
 
   render() {
     var keeponLogoImg = require('../images/keepon_logo.png');
@@ -58,9 +47,7 @@ class TopBar extends React.Component {
       <div className = 'top-bar-container'>
         <div className = 'top-bar-top'>
           <img src={keeponLogoImg}/>
-          <h1 onClick={() => {this.props.history.push({
-        pathname: '/',
-      });}}>Account</h1>
+          <h1 onClick={this.handleLogout}>Logout</h1>
         </div>
         <div className = 'top-bar-nav'>
           {this.props.navBarOn &&

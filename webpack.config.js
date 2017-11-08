@@ -21,7 +21,7 @@ var config = {
       {
         test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' ,
         query: {
-          plugins: ['transform-decorators-legacy']
+          plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
         },
         include: [
                 path.resolve(__dirname, 'path/to/imported/file/dir'),
