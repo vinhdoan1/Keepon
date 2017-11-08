@@ -4,44 +4,75 @@ import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { Form, FormGroup, Label, Input, FormText, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Icon from 'react-icons-kit';
 import { ic_search } from 'react-icons-kit/md/ic_search';
+import { connect } from "react-redux";
+var api = require('../utils/api');
 
-var couponData = [
-  {
-    name: "$20 off Fried Chicken",
-    store: "Vons",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$15 off when you buy two or more hats",
-    store: "Macy's",
-    expiration: "10/28/17",
-  },
-  {
-    name: "10% off Purchase",
-    store: "Bed, Bath, and Beyond",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$2.50 off Breakfast Sandwich",
-    store: "Mcdonald's",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$500 off LED Television",
-    store: "Fry's Electronics",
-    expiration: "10/28/17",
-  },
-  {
-    name: "50% off One Item",
-    store: "Best Buy",
-    expiration: "10/28/17",
-  },
-]
-
-
+@connect((store) => {
+  return {
+    userProfile: store.user
+  }
+})
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      coupons: [],
+      couponsSet: false,
+      couponModals:{},
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
+      var coupons = api.getCoupons(this.props.userProfile.userID);
+      var couponList = [];
+      var couponModals = {};
+      for (var userID in coupons) {
+        couponList.push({
+          id: userID,
+          savings: coupons[userID].savings,
+          store: coupons[userID].store,
+          date: coupons[userID].date,
+          category: coupons[userID].category,
+          location: coupons[userID].location,
+          used: coupons[userID].used,
+        })
+        couponModals[userID] = false;
+      }
+      this.setState({
+        coupons: couponList,
+        couponModals: couponModals,
+        couponsSet: true,
+      })
+    }
+  }
+
+  componentDidMount(){
+    if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
+      var coupons = api.getCoupons(this.props.userProfile.userID);
+      var couponList = [];
+      for (var userID in coupons) {
+        couponList.push({
+          id: userID,
+          savings: coupons[userID].savings,
+          store: coupons[userID].store,
+          date: coupons[userID].date,
+          category: coupons[userID].category,
+          location: coupons[userID].location,
+          used: coupons[userID].used,
+        })
+        couponModals[userID] = false;
+      }
+      this.setState({
+        coupons: couponList,
+        couponModals: couponModals,
+        couponsSet: true,
+      })
+    }
+  }
 
   // convert coupon data to proper n x m array
   nColumnize(n, couponDataArr) {
@@ -49,7 +80,10 @@ class Home extends React.Component {
     for (var i = 0; i < couponDataArr.length / n; i++) {
       var singleRow = [];
       for (var j = 0; j < n; j++) {
-        singleRow.push(couponDataArr[i * n + j]);
+        var couponData = couponDataArr[i * n + j];
+        if (couponData != undefined) {
+          singleRow.push(couponData);
+        }
       }
       columnCouponData.push(singleRow);
     }
@@ -59,7 +93,7 @@ class Home extends React.Component {
   render() {
     // now a 2 x n array because there are 2 coupons per row
     var couponsPerRow = 2;
-    var columnCouponData = this.nColumnize(couponsPerRow, couponData);
+    var columnCouponData = this.nColumnize(couponsPerRow, this.state.coupons);
 
     //convert coupon data into component
     var couponComponents = columnCouponData.map(function(couponRow, i) {
@@ -68,9 +102,9 @@ class Home extends React.Component {
         return (
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
             <Card body>
-              <CardTitle>{coupon.name}</CardTitle>
+              <CardTitle>{coupon.savings}</CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
-              <CardText>Exp. {coupon.expiration}</CardText>
+              <CardText>Exp. {coupon.date}</CardText>
             </Card>
           </Col>)
       });
@@ -88,7 +122,7 @@ class Home extends React.Component {
         <Container>
             <h1>My Coupons</h1>
             <Row>
-              <Col xs={8} sm={10}>
+              <Col xs={12} sm={12}>
                 <FormGroup>
                   <InputGroup>
                     <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
@@ -96,10 +130,10 @@ class Home extends React.Component {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs={2} sm={1}>
+              <Col xs={0} sm={1} hidden>
                 <Button outline color="primary">Filter</Button>
               </Col>
-              <Col xs={2} sm={1}>
+              <Col xs={2} sm={1} hidden>
                 <Button outline color="primary">Sort</Button>
               </Col>
             </Row>

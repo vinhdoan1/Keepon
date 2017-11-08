@@ -3,7 +3,13 @@ var TopBar = require('./TopBar');
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 var api = require('../utils/api');
+import { connect } from "react-redux";
 
+@connect((store) => {
+  return {
+    userProfile: store.user
+  }
+})
 class AddCoupon extends React.Component {
   constructor(props) {
     super(props);
@@ -32,8 +38,14 @@ class AddCoupon extends React.Component {
   }
 
   onSubmit() {
-    //should also call add coupon (to be done)
-    console.log(this.state)
+    api.addCoupon(
+      this.props.userProfile.userID,
+      this.state.savings,
+      this.state.store,
+      this.state.date,
+      this.state.category,
+      this.state.location,
+    )
     this.props.history.push({
       pathname: '/home',
     });
@@ -76,7 +88,7 @@ class AddCoupon extends React.Component {
             </FormGroup>
           </Form>
           <Button onClick={this.onCancel}>Cancel</Button>
-          <Button onSubmit={this.onSubmit}>Submit</Button>
+          <Button onClick={this.onSubmit}>Submit</Button>
         </Container>
       </div>
     )

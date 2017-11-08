@@ -1,4 +1,5 @@
 /*
+data structure:
 {
   users: [{
     name: username,
@@ -23,7 +24,6 @@
 */
 
 function saveUser(users) {
-
   localStorage.setItem('users', JSON.stringify(users));
 }
 
@@ -31,15 +31,47 @@ function saveUserData(userdata) {
   localStorage.setItem('alluserdata', JSON.stringify(userdata));
 }
 
+// generates unique ID
+function generateID() {
+  return Date.now().toString(36);
+}
 
+function getUsers() {
+  var allUsersString = localStorage.getItem("users");
+  var allUsers = [];
+  if (allUsersString != null) {
+    allUsers = JSON.parse(allUsersString);
+  } else {
+    saveUser(allUsers);
+  }
+  return allUsers;
+}
+
+function getUserData() {
+  var allUserDataString = localStorage.getItem("alluserdata");
+  var allUserData = {};
+  if (allUserDataString != null) {
+    allUserData = JSON.parse(allUserDataString);
+  } else {
+    saveUserData(allUserData);
+  }
+  return allUserData;
+}
 
 function getUserIDFromCredentials(name, pass) {
-
+  var allUsers = getUsers();
+  for (var i = 0; i < allUsers.length; i++) {
+    var user = allUsers[i];
+    if (user.name === name && user.pass === pass) {
+      return user.id;
+    }
+  }
+  return null;
 }
 
 function addUser(username, password) {
-  alllUsers = JSON.parse(localStorage.getItem("users"));
-  allUserData = JSON.parse(localStorage.getItem("alluserdata"));
+  var alllUsers = getUsers();
+  var allUserData = getUserData();
 
   var newID = generateID();
   alllUsers.push({
@@ -47,7 +79,7 @@ function addUser(username, password) {
     pass: password,
     id: newID,
   })
-  allUserData[id] = {
+  allUserData[newID] = {
     id: newID,
     coupons: {},
     shoppingList: [],
@@ -55,10 +87,12 @@ function addUser(username, password) {
 
   saveUser(alllUsers);
   saveUserData(allUserData);
+
+  return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cDategory, cLocation) {
-  allUserData = JSON.parse(localStorage.getItem("alluserdata"));
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation) {
+  var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
   userData.coupons[id] = {
@@ -73,21 +107,30 @@ function addCoupon(userID, cSavings, cStore, cDate, cDategory, cLocation) {
   saveUserData(allUserData);
 }
 
-function markCouponAsUsed(userID, couponID) {
-  allUserData = JSON.parse(localStorage.getItem("alluserdata"));
+function markCoupon(userID, couponID, mark) {
+  var allUserData = getUserData();
   var userData = allUserData[userID];
-  userData.coupons[couponID].used = true;
+  userData.coupons[couponID].used = mark;
   saveUserData(allUserData);
 }
 
 function addCouponToShoppingList(userID, couponID) {
-  allUserData = JSON.parse(localStorage.getItem("alluserdata"));
+  var allUserData = getUserData();
   var userData = allUserData[userID];
   userData.shoppinglist.push(couponID);
   saveUserData(userData);
 }
 
-// generates unique ID
-function generateID() {
-  return Date.now().toString(36);
+function getCoupons(userID) {
+  var allUserData = getUserData();
+  return allUserData[userID].coupons;
 }
+
+module.exports = {
+  login: getUserIDFromCredentials,
+  addUser: addUser,
+  addCoupon: addCoupon,
+  markCoupon: markCoupon,
+  addCouponToShoppingList: addCouponToShoppingList,
+  getCoupons: getCoupons,
+};
