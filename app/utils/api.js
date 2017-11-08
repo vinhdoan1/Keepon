@@ -111,19 +111,34 @@ function markCoupon(userID, couponID, mark) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   userData.coupons[couponID].used = mark;
+  allUserData[userID] = userData;
   saveUserData(allUserData);
 }
 
 function addCouponToShoppingList(userID, couponID) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
-  userData.shoppinglist.push(couponID);
-  saveUserData(userData);
+  userData.shoppingList.push(couponID);
+  allUserData[userID] = userData;
+  saveUserData(allUserData);
 }
 
 function getCoupons(userID) {
   var allUserData = getUserData();
   return allUserData[userID].coupons;
+}
+
+function getMarkedCoupons(userID) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  var coupons = userData.coupons;
+  var markedCoupons = {};
+  for (var i = 0; i < userData.shoppingList.length; i++) {
+    var userID = userData.shoppingList[i];
+    markedCoupons[userID] = coupons[userID];
+  }
+  console.log(markedCoupons);
+  return markedCoupons;
 }
 
 module.exports = {
@@ -133,4 +148,5 @@ module.exports = {
   markCoupon: markCoupon,
   addCouponToShoppingList: addCouponToShoppingList,
   getCoupons: getCoupons,
+  getMarkedCoupons: getMarkedCoupons,
 };

@@ -23,6 +23,8 @@ class Home extends React.Component {
       couponsSet: false,
       couponModals:{},
     };
+
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -54,6 +56,7 @@ class Home extends React.Component {
     if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
       var coupons = api.getCoupons(this.props.userProfile.userID);
       var couponList = [];
+      var couponModals = {};
       for (var userID in coupons) {
         couponList.push({
           id: userID,
@@ -72,6 +75,17 @@ class Home extends React.Component {
         couponsSet: true,
       })
     }
+  }
+
+  toggleModal(userID, toggle) {
+    var couponModals = JSON.parse(JSON.stringify(this.state.couponModals));
+    for (var id in couponModals) {
+      couponModals[id] = false;
+    }
+    couponModals[userID] = toggle;
+    this.setState({
+      couponModals: couponModals,
+    })
   }
 
   // convert coupon data to proper n x m array
@@ -99,15 +113,16 @@ class Home extends React.Component {
     var couponComponents = columnCouponData.map(function(couponRow, i) {
       // create component card for single coupon
       var singleRowComponent = couponRow.map(function(coupon, j) {
+        var id = coupon.id;
         return (
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
-            <Card body>
+            <Card body onClick={() => {this.toggleModal(id, true)}}>
               <CardTitle>{coupon.savings}</CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
               <CardText>Exp. {coupon.date}</CardText>
             </Card>
           </Col>)
-      });
+      }.bind(this));
 
       return (
         <Row key={i}>
@@ -116,10 +131,36 @@ class Home extends React.Component {
       )
     }.bind(this));
 
+    var couponModals = this.state.coupons.map(function(coupon, i) {
+      var id = coupon.id;
+      return (
+        <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
+          <ModalHeader toggle={() => {this.toggleModal(id, false)}}>{coupon.savings}</ModalHeader>
+          <ModalBody>
+            Store: {coupon.store}
+          </ModalBody>
+          <ModalBody>
+            Expiration Date: {coupon.date}
+          </ModalBody>
+          <ModalBody>
+            location: {coupon.location}
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => {
+                api.addCouponToShoppingList(this.props.userProfile.userID, id);
+                this.toggleModal(id, false);
+              }}>Add to Shopping List</Button>
+            <Button color="secondary" onClick={() => {this.toggleModal(id, false)}}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+      )
+    }.bind(this));
+
     return (
       <div name="login-container">
         <TopBar selected={1} navBarOn={true} history={this.props.history}/>
         <Container>
+            {couponModals}
             <h1>My Coupons</h1>
             <Row>
               <Col xs={12} sm={12}>
