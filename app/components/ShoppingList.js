@@ -7,39 +7,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from "react-redux";
 var api = require('../utils/api');
 
-var couponData = [
-  {
-    name: "$20 off Fried Chicken",
-    store: "Vons",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$15 off when you buy two or more hats",
-    store: "Macy's",
-    expiration: "10/28/17",
-  },
-  {
-    name: "10% off Purchase",
-    store: "Bed, Bath, and Beyond",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$2.50 off Breakfast Sandwich",
-    store: "Mcdonald's",
-    expiration: "10/28/17",
-  },
-  {
-    name: "$500 off LED Television",
-    store: "Fry's Electronics",
-    expiration: "10/28/17",
-  },
-  {
-    name: "50% off One Item",
-    store: "Best Buy",
-    expiration: "10/28/17",
-  },
-]
-
 @connect((store) => {
   return {
     userProfile: store.user
@@ -57,54 +24,38 @@ class ShoppingList extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
   }
 
+  refreshCouponList() {
+    var coupons = api.getMarkedCoupons(this.props.userProfile.userID);
+    var couponList = [];
+    var couponModals = {};
+    for (var userID in coupons) {
+      couponList.push({
+        id: userID,
+        savings: coupons[userID].savings,
+        store: coupons[userID].store,
+        date: coupons[userID].date,
+        category: coupons[userID].category,
+        location: coupons[userID].location,
+        used: coupons[userID].used,
+      })
+      couponModals[userID] = false;
+    }
+    this.setState({
+      coupons: couponList,
+      couponModals: couponModals,
+      couponsSet: true,
+    })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
-      var coupons = api.getMarkedCoupons(this.props.userProfile.userID);
-      var couponList = [];
-      var couponModals = {};
-      console.log(coupons);
-      for (var userID in coupons) {
-        couponList.push({
-          id: userID,
-          savings: coupons[userID].savings,
-          store: coupons[userID].store,
-          date: coupons[userID].date,
-          category: coupons[userID].category,
-          location: coupons[userID].location,
-          used: coupons[userID].used,
-        })
-        couponModals[userID] = false;
-      }
-      this.setState({
-        coupons: couponList,
-        couponModals: couponModals,
-        couponsSet: true,
-      })
+      this.refreshCouponList();
     }
   }
 
   componentDidMount(){
     if (!this.state.couponsSet && this.props.userProfile.loggedIn) {
-      var coupons = api.getMarkedCoupons(this.props.userProfile.userID);
-      var couponList = [];
-      var couponModals = {};
-      for (var userID in coupons) {
-        couponList.push({
-          id: userID,
-          savings: coupons[userID].savings,
-          store: coupons[userID].store,
-          date: coupons[userID].date,
-          category: coupons[userID].category,
-          location: coupons[userID].location,
-          used: coupons[userID].used,
-        })
-        couponModals[userID] = false;
-      }
-      this.setState({
-        coupons: couponList,
-        couponModals: couponModals,
-        couponsSet: true,
-      })
+      this.refreshCouponList();
     }
   }
 
@@ -136,13 +87,15 @@ class ShoppingList extends React.Component {
   }
 
   render() {
-    // now a 2 x n array because there are 2 coupons per row
-    var couponsPerRow = 2;
-    var columnCouponData = this.nColumnize(couponsPerRow, couponData);
 
     // now a 2 x n array because there are 2 coupons per row
     var couponsPerRow = 2;
-    var columnCouponData = this.nColumnize(couponsPerRow, this.state.coupons);
+    
+    var filteredData = this.state.coupons.filter(function(coupon) {
+      return !coupon.used
+    });
+
+    var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
 
     //convert coupon data into component
     var couponComponents = columnCouponData.map(function(couponRow, i) {
@@ -183,6 +136,7 @@ class ShoppingList extends React.Component {
           <ModalFooter>
             <Button color="primary" onClick={() => {
                 api.markCoupon(this.props.userProfile.userID, id, true);
+                this.refreshCouponList();
                 this.toggleModal(id, false);
               }}>Use Coupon</Button>
             <Button color="secondary" onClick={() => {this.toggleModal(id, false)}}>Cancel</Button>
@@ -195,6 +149,7 @@ class ShoppingList extends React.Component {
       <div name="shopping-list-container">
         <TopBar selected={2} navBarOn={true} history={this.props.history}/>
         <Container>
+          {couponModals}
           <h1>Shopping List</h1>
           {couponComponents}
         </Container>
