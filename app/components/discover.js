@@ -41,6 +41,27 @@ var couponData = [
 ]
 
 class Discover extends React.Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+      value: undefined,
+      zipEntered: undefined,
+      zipDisplay: undefined,
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onChange(event){
+    this.setState({zipEntered: event.target.value});
+  }
+
+  onSubmit(event){
+    this.setState({zipDisplay: this.state.zipEntered});
+    console.log("Working");
+  }
+
 // convert coupon data to proper n x m array
   nColumnize(n, couponDataArr) {
     var columnCouponData = [];
@@ -54,7 +75,7 @@ class Discover extends React.Component {
     return columnCouponData;
   }
     
-    render(){
+  render(){
             // now a 2 x n array because there are 2 coupons per row
     var couponsPerRow = 2;
     var columnCouponData = this.nColumnize(couponsPerRow, couponData);
@@ -73,7 +94,7 @@ class Discover extends React.Component {
           </Col>)
       });
 
-      return (
+    return (
         <Row key={i}>
           {singleRowComponent}
         </Row>
@@ -87,15 +108,15 @@ class Discover extends React.Component {
             <Row>
               <h1>Discover</h1>
               <Col xs={6} sm={6}>
-                <FormGroup>
-                  <InputGroup>
-                    <Input placeholder="Enter Zipcode" />
-                    <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
-                  </InputGroup>
-                </FormGroup>
+                <form onChange={this.onChange}>
+                  <FormGroup>
+                    <Input type="text" value={this.state.value} onChange={this.onChange} placeholder="Enter Zipcode"/>
+                  </FormGroup>
+                </form>
               </Col>
-            <h4>Coupons for San Diego, CA '92122'</h4>
+            <Button onClick={this.onSubmit}>Enter</Button>
             </Row>
+            <h4>Coupons for {this.state.zipDisplay} </h4>
           {couponComponents}
         </Container>
       </div>
