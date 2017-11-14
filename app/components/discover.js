@@ -74,7 +74,7 @@ class Discover extends React.Component {
     }
     return columnCouponData;
   }
-    
+
   render(){
             // now a 2 x n array because there are 2 coupons per row
     var couponsPerRow = 2;
@@ -103,18 +103,24 @@ class Discover extends React.Component {
 
     return (
       <div name="discover-container">
-        <TopBar selected={3} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={2} navBarOn={true} history={this.props.history}/>
         <Container>
             <Row>
-              <h1>Discover</h1>
               <Col xs={6} sm={6}>
+              <h1>Discover</h1>
+              </Col>
+
+              <Col xs={4} sm={4}>
                 <form onChange={this.onChange}>
                   <FormGroup>
                     <Input type="text" value={this.state.value} onChange={this.onChange} placeholder="Enter Zipcode"/>
                   </FormGroup>
                 </form>
               </Col>
-            <Button onClick={this.onSubmit}>Enter</Button>
+              <Col xs={2} sm={2}>
+                <Button onClick={this.onSubmit}>Enter</Button>
+              </Col>
+
             </Row>
             <h4>Coupons for {this.state.zipDisplay} </h4>
           {couponComponents}

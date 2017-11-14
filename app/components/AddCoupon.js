@@ -54,7 +54,7 @@ class AddCoupon extends React.Component {
   render() {
     return (
       <div name="add-coupon-container">
-        <TopBar selected={0} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={3} navBarOn={true} history={this.props.history}/>
         <Container>
           <h1>Add Coupon</h1>
           <Form onChange={this.onFormChange}>

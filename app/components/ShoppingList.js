@@ -20,7 +20,7 @@ class ShoppingList extends React.Component {
 
     return (
       <div name="shopping-list-container">
-        <TopBar selected={2} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={1} navBarOn={true} history={this.props.history}/>
         <Container>
           <h1>Shopping List</h1>
           <p>Add coupons to your Shopping List for quick and easy access!</p>

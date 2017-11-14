@@ -41,3 +41,13 @@
   margin-bottom: 10px;
   display: block;
 }
+
+.login-container button {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+.login-container #newUserButton {
+  font-size: 12px;
+}

@@ -1,4 +1,8 @@
 /*
+Represents simulated backend with api calls that modify local storage.
+*/
+
+/*
 data structure:
 {
   users: [{
@@ -16,7 +20,9 @@ data structure:
       date,
       category,
       location,
-      used
+      used,
+      discoverable,
+      zip
     }
     shoppinglist: []
   },
@@ -91,7 +97,7 @@ function addUser(username, password) {
   return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation) {
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
@@ -102,6 +108,25 @@ function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation) {
     category: cCategory,
     location: cLocation,
     used: false,
+    discoverable: cDiscoverable,
+    zip: cZip,
+  };
+  allUserData[userID] = userData;
+  saveUserData(allUserData);
+}
+
+function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  userData.coupons[couponID] = {
+    savings: cSavings,
+    store: cStore,
+    date: cDate,
+    category: cCategory,
+    location: cLocation,
+    used: false,
+    discoverable: cDiscoverable,
+    zip: cZip,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);
@@ -140,10 +165,38 @@ function getMarkedCoupons(userID) {
   return markedCoupons;
 }
 
+function getUsedCoupons(userID) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  var usedCoupons = userData.coupons.filter(function(coupon) {
+    return coupon.used;
+  });
+  return usedCoupons;
+}
+
+function deleteCoupon(userID, couponID) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  delete userData.coupons[couponID];
+  allUserData[userID] = userData;
+  saveUserData(allUserData);
+}
+
+function deleteAllUsedCoupons(userID) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  userData.coupons = userData.coupons.filter(function(coupon) {
+    return !coupon.used;
+  });
+  allUserData[userID] = userData;
+  saveUserData(allUserData);
+}
+
 module.exports = {
   login: getUserIDFromCredentials,
   addUser: addUser,
   addCoupon: addCoupon,
+  editCoupon: editCoupon,
   markCoupon: markCoupon,
   addCouponToShoppingList: addCouponToShoppingList,
   getCoupons: getCoupons,

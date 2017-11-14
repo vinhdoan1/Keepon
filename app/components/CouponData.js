@@ -174,7 +174,7 @@ CouponData.propTypes = {
   sort: PropTypes.func, // which sort function is applied
   buttons: PropTypes.arrayOf(PropTypes.shape({ // buttons and thier function
     buttonText: PropTypes.string,
-    buttonFunc: PropTypes.func, // takes in coupon
+    buttonFunc: PropTypes.func, // takes in userID and couponID
   })),
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
 };

@@ -58,17 +58,21 @@ class Login extends React.Component {
           <img src={keeponLogoImg}/>
           <Form onChange={this.onFormChange}>
             <Row>
-              <Input name="username" id="usernameForm" placeholder="Username"/>
+              <Col xs={12}>
+                <Input name="username" id="usernameForm" placeholder="Username"/>
+              </Col>
             </Row>
             <Row>
-              <Input type="password" name="password" id="passForm" placeholder="Password"/>
+              <Col xs={12}>
+                <Input type="password" name="password" id="passForm" placeholder="Password"/>
+              </Col>
             </Row>
           </Form>
           <Row>
             <Button onClick={this.onLogin}>Login</Button>
           </Row>
           <Row>
-            <Button onClick={this.onNewUser}>New user? Sign up here</Button>
+            <Button onClick={this.onNewUser} id="newUserButton" >New user? Sign up here</Button>
           </Row>
         </Container>
       </div>
