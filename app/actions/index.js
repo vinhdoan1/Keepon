@@ -6,3 +6,8 @@ export const login = (user) => ({
 export const logout = () => ({
   type: 'LOGOUT',
 })
+
+export const editcoupon = (coupon) => ({
+  type: 'EDITCOUPON',
+  couponID: coupon.id,
+})
