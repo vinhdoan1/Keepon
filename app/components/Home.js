@@ -30,7 +30,7 @@ class Home extends React.Component {
       var searchTerm = this.state.searchTerm;
       if (searchTerm == "")
         return true;
-      return coupon.savings.includes(searchTerm) || coupon.store.includes(searchTerm);
+      return coupon.savings.includes(searchTerm) || coupon.store.includes(searchTerm) || coupon.category.includes(searchTerm);
     }.bind(this));
 
     filters.push(function(coupon) {
@@ -67,7 +67,7 @@ class Home extends React.Component {
         <Container>
             <h1>My Coupons</h1>
             <Row>
-              <Col xs={12} sm={10}>
+              <Col xs={10} sm={10}>
                 <FormGroup onChange={this.onSearchChange}>
                   <InputGroup>
                     <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
@@ -75,10 +75,7 @@ class Home extends React.Component {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs={0} sm={1}>
-                <Button outline color="primary">Filter</Button>
-              </Col>
-              <Col xs={2} sm={1}>
+              <Col xs={2} sm={2}>
                 <Button outline color="primary">Sort</Button>
               </Col>
             </Row>
