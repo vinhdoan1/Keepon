@@ -1,4 +1,13 @@
+/*
+Represents the display of the grid of coupons. The passed in props can specify
+the the number of columns, how to filter them
+
+Check the bottom for the full list of prop types
+*/
+
 var React = require('react');
+var PropTypes = require('prop-types');
+import { Container, Row, Col } from 'reactstrap';
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -23,7 +32,12 @@ class CouponData extends React.Component {
   }
 
   refreshCouponList() {
-    var coupons = api.getMarkedCoupons(this.props.userProfile.userID);
+    var coupons = []
+    if (this.props.shoppingList) {
+      coupons = api.getMarkedCoupons(this.props.userProfile.userID);
+    } else {
+      coupons = api.getCoupons(this.props.userProfile.userID);
+    }
     var couponList = [];
     var couponModals = {};
     for (var userID in coupons) {
@@ -86,12 +100,13 @@ class CouponData extends React.Component {
 
   render() {
 
-    // now a 2 x n array because there are 2 coupons per row
-    var couponsPerRow = 2;
+    // now a cols x n array because there are (cols) coupons per row
+    var couponsPerRow = this.props.cols;
 
-    var filteredData = this.state.coupons.filter(function(coupon) {
-      return !coupon.used
-    });
+    var filteredData = this.state.coupons.slice();
+    for (var i = 0; i < this.props.filters.length; i++) {
+      filteredData = filteredData.filter(this.props.filters[i]);
+    }
 
     var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
 
@@ -152,11 +167,16 @@ class CouponData extends React.Component {
   }
 }
 
-/*
+// different prop types
 CouponData.propTypes = {
-  filters: PropTypes.number.isRequired,
-  navBarOn: PropTypes.bool.isRequired,
+  cols: PropTypes.number.isRequired, // how many columns
+  filters: PropTypes.arrayOf(PropTypes.func), // which filter functions are applied
+  sort: PropTypes.func, // which sort function is applied
+  buttons: PropTypes.arrayOf(PropTypes.shape({ // buttons and thier function
+    buttonText: PropTypes.string,
+    buttonFunc: PropTypes.func, // takes in coupon
+  })),
+  shoppingList: PropTypes.bool, // whether it is a shopping list or not
 };
-*/
 
 module.exports = CouponData;

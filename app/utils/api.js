@@ -1,6 +1,3 @@
-// stimulates backend, the data structure is below and the calls to access data
-// are below
-
 /*
 data structure:
 {
@@ -76,13 +73,6 @@ function addUser(username, password) {
   var alllUsers = getUsers();
   var allUserData = getUserData();
 
-  // check if username is already used.
-  for (user in alllUsers) {
-    if (user.username === username) {
-      return null;
-    }
-  }
-
   var newID = generateID();
   alllUsers.push({
     name: username,
@@ -101,7 +91,7 @@ function addUser(username, password) {
   return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZIP) {
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
@@ -111,25 +101,6 @@ function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDisco
     date: cDate,
     category: cCategory,
     location: cLocation,
-    discoverable: cDiscoverable,
-    zip: cZIP,
-    used: false,
-  };
-  allUserData[userID] = userData;
-  saveUserData(allUserData);
-}
-
-function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZIP) {
-  var allUserData = getUserData();
-  var userData = allUserData[userID];
-  userData.coupons[couponID] = {
-    savings: cSavings,
-    store: cStore,
-    date: cDate,
-    category: cCategory,
-    location: cLocation,
-    discoverable: cDiscoverable,
-    zip: cZIP,
     used: false,
   };
   allUserData[userID] = userData;
@@ -168,35 +139,6 @@ function getMarkedCoupons(userID) {
   }
   return markedCoupons;
 }
-
-function deleteCoupon(userID, couponID) {
-  var allUserData = getUserData();
-  var userData = allUserData[userID];
-  delete userData.coupons[couponID];
-  allUserData[userID] = userData;
-  saveUserData(allUserData);
-}
-
-
-function deleteAllMarked(userID) {
-  var allUserData = getUserData();
-  var userData = allUserData[userID];
-  userData.coupons = userData.coupons.filter(function( coupon ) {
-    return !coupon.used;
-  });
-  allUserData[userID] = userData;
-  saveUserData(allUserData);
-}
-
-function getAllMarkedCoupons(userID) {
-  var allUserData = getUserData();
-  var userData = allUserData[userID];
-  var markedCoupons = userData.coupons.filter(function( coupon ) {
-    return coupon.used;
-  });
-  return userData.coupons
-}
-
 
 module.exports = {
   login: getUserIDFromCredentials,
