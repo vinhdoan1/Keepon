@@ -35,7 +35,6 @@ class Login extends React.Component {
 
   onLogin() {
     var loggedID = api.login(this.state.username, this.state.password);
-    console.log(loggedID);
     if (loggedID != null) {
       var user = {
         id: loggedID,

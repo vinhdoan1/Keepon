@@ -210,7 +210,7 @@ class CouponData extends React.Component {
           <ModalBody>
             Location: {coupon.location}
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter className="modalButtons">
             {couponModalButtons}
             <Button color="secondary" onClick={() => {this.toggleModal(id, false)}}>Cancel</Button>
           </ModalFooter>
@@ -219,7 +219,7 @@ class CouponData extends React.Component {
     }.bind(this));
 
     return (
-      <div name="coupon-data-container">
+      <div className="coupon-data-container">
           {couponModals}
           {couponComponents}
       </div>

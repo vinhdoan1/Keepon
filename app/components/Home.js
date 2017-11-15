@@ -8,6 +8,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import Icon from 'react-icons-kit';
 import { ic_search } from 'react-icons-kit/md/ic_search';
 import { connect } from "react-redux";
+import { editcoupon } from "../actions/";
 
 @connect((store) => {
   return {
@@ -83,11 +84,16 @@ class Home extends React.Component {
     });
 
     var editCouponFunc = function(userID, couponID) {
-      this.props.dispatch(editcoupon(couponID));
+      console.log(couponID);
+      var coupon = {
+        id: couponID,
+      }
+      this.props.dispatch(editcoupon(coupon));
       this.props.history.push({
         pathname: '/addcoupon',
       });
-    }
+    }.bind(this);
+
     buttons.push({
       buttonText: "Edit Coupon",
       buttonColor: "primary",

@@ -215,6 +215,12 @@ function getUsedCoupons(userID) {
   return usedCoupons;
 }
 
+function getSingleCoupon(userID, couponID) {
+  var allUserData = getUserData();
+  var userData = allUserData[userID];
+  return userData.coupons[couponID];
+}
+
 function deleteCoupon(userID, couponID) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
@@ -242,5 +248,6 @@ module.exports = {
   addCouponToShoppingList: addCouponToShoppingList,
   getDiscoverCoupons: getDiscoverCoupons,
   getCoupons: getCoupons,
+  getSingleCoupon: getSingleCoupon,
   getMarkedCoupons: getMarkedCoupons,
 };

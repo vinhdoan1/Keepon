@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 var api = require('../utils/api');
 import { connect } from "react-redux";
+import { editcoupondone } from "../actions/";
 
 @connect((store) => {
   return {
@@ -14,16 +15,23 @@ import { connect } from "react-redux";
 class AddCoupon extends React.Component {
   constructor(props) {
     super(props);
-    if (couponToEdit.editing) {
+    console.log(props);
+    if (this.props.couponToEdit.editing) {
+      var coupon = api.getSingleCoupon(this.props.userProfile.userID, this.props.couponToEdit.couponID);
+      console.log(coupon);
+      var date = 0;
+      if (coupon.category) {
+        date = coupon.category;
+      }
       this.state = {
-        savings: "",
-        store: "",
-        date: 0,
-        category: "",
-        location: "",
-        discoverable: false,
-        zip: 0,
-        discoverLocation: "",
+        savings: coupon.savings,
+        store: coupon.store,
+        date: coupon.date,
+        category: coupon.category,
+        location: coupon.location,
+        discoverable: coupon.discoverable,
+        zip: coupon.zip,
+        discoverLocation: coupon.discoverLocation,
       };
     } else {
       this.state = {
@@ -94,27 +102,32 @@ class AddCoupon extends React.Component {
   }
 
   render() {
+    var headerText = "Add Coupon";
+    if (this.props.couponToEdit.editing) {
+      headerText = "Edit Coupon";
+    }
+
     return (
       <div className="add-coupon-container">
         <TopBar selected={3} navBarOn={true} history={this.props.history}/>
         <Container>
-          <h1>Add Coupon</h1>
+          <h1>{headerText}</h1>
           <Form onChange={this.onFormChange}>
             <FormGroup>
               <Label for="savingsForm">Savings</Label>
-              <Input name="savings" id="savingsForm" placeholder="Describe your deal"/>
+              <Input name="savings" id="savingsForm" placeholder="Describe your deal" value={this.state.savings}/>
             </FormGroup>
             <FormGroup>
               <Label for="storeForm">Store</Label>
-              <Input name="store" id="storeForm" placeholder="ex. Vons, Target, Best Buy" />
+              <Input name="store" id="storeForm" placeholder="ex. Vons, Target, Best Buy" value={this.state.store}/>
             </FormGroup>
             <FormGroup>
               <Label for="dateForm">Expiration Date</Label>
-              <Input type="date" name="date" id="dateForm" />
+              <Input type="date" name="date" id="dateForm" value={this.state.date}/>
             </FormGroup>
             <FormGroup>
               <Label for="categoryForm">Category</Label>
-                <Input type="select" name="category" id="categoryForm" defaultValue="default">
+                <Input type="select" name="category" id="categoryForm" defaultValue="default" value={this.state.category}>
                     <option disabled value="default">Select Catergory</option>
                     <option>Clothes</option>
                     <option>Electronics</option>
@@ -127,19 +140,19 @@ class AddCoupon extends React.Component {
             </FormGroup>
             <FormGroup>
               <Label for="locationForm">Where is the Coupon Stored?</Label>
-              <Input name="location" id="locationForm" placeholder="ex: Wallet, Coupon Drawer, Pocket"/>
+              <Input name="location" id="locationForm" placeholder="ex: Wallet, Coupon Drawer, Pocket" value={this.state.location}/>
             </FormGroup>
             <FormGroup>
               <Label for="discoverableCheckBox">Make Discoverable?</Label>
-              <Input type="checkbox" id="discoverableBox" name="discoverable"/>
+              <Input type="checkbox" id="discoverableBox" name="discoverable" value={this.state.discoverable}/>
             </FormGroup>
             <FormGroup>
               <Label for="zipForm">ZIP Code:</Label>
-              <Input disabled={!this.state.discoverable} name="zip" id="zipForm" placeholder="Enter ZIP Code (leave blank if universal)" />
+              <Input disabled={!this.state.discoverable} name="zip" id="zipForm" placeholder="Enter ZIP Code (leave blank if universal)" value={this.state.zip}/>
             </FormGroup>
             <FormGroup>
               <Label for="discoverLocationForm">Enter Coupon Location:</Label>
-              <Input disabled={!this.state.discoverable} name="discoverLocation" id="discoverLocationForm" placeholder="ex: LA Times, pg. 1" />
+              <Input disabled={!this.state.discoverable} name="discoverLocation" id="discoverLocationForm" placeholder="ex: LA Times, pg. 1" value={this.state.discoverLocation}/>
             </FormGroup>
 
           </Form>

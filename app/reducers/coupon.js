@@ -7,7 +7,7 @@ const coupon = (state = stateStart, action) => {
   switch (action.type) {
     case 'EDITCOUPON': {
       return {
-          userID: action.coupon,
+          couponID: action.couponID,
           editing: true,
         }
     }

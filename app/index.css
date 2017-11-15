@@ -56,3 +56,7 @@
   margin-left: 10px;
   height: 20px;
 }
+
+.modalButtons button{
+  font-size: small;
+}
