@@ -15,10 +15,8 @@ import { editcoupondone } from "../actions/";
 class AddCoupon extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     if (this.props.couponToEdit.editing) {
       var coupon = api.getSingleCoupon(this.props.userProfile.userID, this.props.couponToEdit.couponID);
-      console.log(coupon);
       var date = 0;
       if (coupon.category) {
         date = coupon.category;

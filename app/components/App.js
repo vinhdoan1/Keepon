@@ -5,6 +5,7 @@ var ShoppingList = require('./ShoppingList');
 var AddCoupon = require('./AddCoupon');
 var Discover = require('./Discover');
 var NewUser = require('./NewUser');
+var HistoryPage = require('./History');
 var ReactRouter = require('react-router-dom');
 var BrowserRouter = ReactRouter.BrowserRouter;
 var Route = ReactRouter.Route;
@@ -20,6 +21,7 @@ class App extends React.Component {
           <Route path='/addcoupon' component={AddCoupon} />
           <Route path='/discover' component={Discover} />
           <Route path='/newuser' component={NewUser} />
+          <Route path='/history' component={HistoryPage} />
         </div>
       </BrowserRouter>
     )

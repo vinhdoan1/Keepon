@@ -250,4 +250,5 @@ module.exports = {
   getCoupons: getCoupons,
   getSingleCoupon: getSingleCoupon,
   getMarkedCoupons: getMarkedCoupons,
+  deleteCoupon: deleteCoupon,
 };

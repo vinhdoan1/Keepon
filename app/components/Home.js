@@ -9,6 +9,7 @@ import Icon from 'react-icons-kit';
 import { ic_search } from 'react-icons-kit/md/ic_search';
 import { connect } from "react-redux";
 import { editcoupon } from "../actions/";
+var api = require('../utils/api');
 
 @connect((store) => {
   return {

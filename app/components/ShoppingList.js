@@ -18,6 +18,18 @@ class ShoppingList extends React.Component {
       return !coupon.used;
     });
 
+    var buttons = [];
+
+    var markCouponFunc = function(userID, couponID) {
+      api.markCoupon(userID, couponID, true);
+    }
+    buttons.push({
+      buttonText: "Use Coupon",
+      buttonColor: "primary",
+      buttonFunc: markCouponFunc,
+    });
+
+
     return (
       <div name="shopping-list-container">
         <TopBar selected={1} navBarOn={true} history={this.props.history}/>
@@ -27,6 +39,7 @@ class ShoppingList extends React.Component {
           <CouponData
             cols={2}
             filters={filters}
+            buttons={buttons}
             shoppingList
             />
         </Container>
