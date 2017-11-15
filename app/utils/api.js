@@ -121,7 +121,7 @@ function addUser(username, password) {
   return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation) {
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cDateAdded) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
@@ -135,12 +135,13 @@ function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDisco
     discoverable: cDiscoverable,
     zip: cZip,
     discoverLocation: cDiscoverLocation,
+    dateAdded: cDateAdded,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);
 }
 
-function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, cZip, cDiscoverLocation) {
+function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, cZip, cDiscoverLocation, cDateAdded) {
   var allDiscoverCoupons = getDiscoverCoupons();
   allDiscoverCoupons.push({
     savings: cSavings,
@@ -150,6 +151,7 @@ function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, 
     location: cLocation,
     zip: cZip,
     discoverLocation: cDiscoverLocation,
+    dateAdded: cDateAdded,
   });
   saveDiscoverCoupons(allDiscoverCoupons);
 }

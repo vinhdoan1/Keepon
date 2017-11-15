@@ -3,6 +3,8 @@ var TopBar = require('./TopBar');
 var CouponData = require('./CouponData');
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Form, FormGroup, Label, Input, FormText, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import Icon from 'react-icons-kit';
 import { ic_search } from 'react-icons-kit/md/ic_search';
 
@@ -11,15 +13,60 @@ class Home extends React.Component {
     super(props);
     this.state = {
       searchTerm: "",
+      sortModal: false,
+      sortType: 0,
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.toggleSortModal = this.toggleSortModal.bind(this);
+    this.setSortType = this.setSortType.bind(this);
   }
 
   onSearchChange(e) {
     this.setState({
       searchTerm: e.target.value,
     })
+  }
+
+  toggleSortModal() {
+    this.setState({
+      sortModal: !this.state.sortModal,
+    })
+  }
+
+  setSortType(sortType) {
+    console.log(sortType)
+    this.setState({
+      sortType: sortType,
+    })
+  }
+
+  getSortFunction(sortType) {
+    if (sortType == 0) { // expiration date
+      return (function (a,b) {
+        if (a.date < b.date)
+        return -1;
+        if (a.date > b.date)
+        return 1;
+        return 0;
+      });
+    } else if (sortType == 1) { // date added
+      return (function (a,b) {
+        if (a.dateAdded < b.dateAdded)
+        return -1;
+        if (a.dateAdded > b.dateAdded)
+        return 1;
+        return 0;
+      });
+    } else if (sortType == 2) { // store (a-z)
+      return (function (a,b) {
+        if (a.store < b.store)
+        return -1;
+        if (a.store > b.store)
+        return 1;
+        return 0;
+      });
+    }
   }
 
   render() {
@@ -60,6 +107,13 @@ class Home extends React.Component {
       buttonFunc: markCouponFunc,
     });
 
+    var sorts = ['Sort by Expiration Date', 'Sort by Date Added', 'Sort by Store (A-Z)'];
+    var sortListGroup = sorts.map(function(sort, i) {
+      return <ListGroupItem key={i} tag="button" onClick={() => {
+          this.setSortType(i);
+          this.toggleSortModal();
+        }} action>{sort}</ListGroupItem>
+    }.bind(this));
 
     return (
       <div name="login-container">
@@ -76,7 +130,7 @@ class Home extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={2} sm={2}>
-                <Button outline color="primary">Sort</Button>
+                <Button outline color="primary" onClick={this.toggleSortModal}>Sort</Button>
               </Col>
             </Row>
           <CouponData
@@ -84,6 +138,17 @@ class Home extends React.Component {
             filters={filters}
             buttons={buttons}
             />
+          <Modal isOpen={this.state.sortModal} toggle={this.toggleSortModal}>
+              <ModalHeader toggle={this.toggleSortModal}>Sort By:</ModalHeader>
+              <ModalBody>
+                <ListGroup>
+                  {sortListGroup}
+                </ListGroup>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.toggleSortModal}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
         </Container>
       </div>
     )

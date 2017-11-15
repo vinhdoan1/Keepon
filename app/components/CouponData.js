@@ -35,7 +35,10 @@ class CouponData extends React.Component {
     var coupons = []
     if (this.props.shoppingList) {
       coupons = api.getMarkedCoupons(this.props.userProfile.userID);
-    } else {
+    } else if (this.props.disoverCoupons) {
+      coupons = api.getDiscoverCoupons();
+    }
+    else {
       coupons = api.getCoupons(this.props.userProfile.userID);
     }
     var couponList = [];
@@ -49,6 +52,7 @@ class CouponData extends React.Component {
         category: coupons[userID].category,
         location: coupons[userID].location,
         used: coupons[userID].used,
+        zip: coupons[userID].zip,
       })
       couponModals[userID] = false;
     }
@@ -188,6 +192,7 @@ CouponData.propTypes = {
     buttonFunc: PropTypes.func, // takes in userID and couponID
   })),
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
+  disoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
 };
 
 module.exports = CouponData;
