@@ -7,7 +7,8 @@ import { connect } from "react-redux";
 
 @connect((store) => {
   return {
-    userProfile: store.user
+    userProfile: store.user,
+    couponToEdit: store.coupon
   }
 })
 class AddCoupon extends React.Component {
@@ -19,6 +20,9 @@ class AddCoupon extends React.Component {
       date: undefined,
       category: undefined,
       location: undefined,
+      discoverable: false,
+      zip: undefined,
+      discoverLocation: undefined,
     };
 
     this.onFormChange = this.onFormChange.bind(this);
@@ -27,8 +31,12 @@ class AddCoupon extends React.Component {
   }
 
   onFormChange(e) {
-    e.preventDefault();
-    this.setState({[e.target.name]: e.target.value});
+    //e.preventDefault();
+    if (e.target.name != "discoverable") {
+      this.setState({[e.target.name]: e.target.value});
+    } else {
+      this.setState({["discoverable"]: !this.state.discoverable})
+    }
   }
 
   onCancel() {
@@ -45,7 +53,21 @@ class AddCoupon extends React.Component {
       this.state.date,
       this.state.category,
       this.state.location,
+      this.state.discoverable,
+      this.state.zip,
+      this.state.discoverLocation,
     )
+    if (this.state.discoverable) {
+      api.addCouponToDiscoverable(
+        this.state.savings,
+        this.state.store,
+        this.state.date,
+        this.state.category,
+        this.state.location,
+        this.state.zip,
+        this.state.discoverLocation,
+      )
+    }
     this.props.history.push({
       pathname: '/home',
     });
@@ -53,7 +75,7 @@ class AddCoupon extends React.Component {
 
   render() {
     return (
-      <div name="add-coupon-container">
+      <div className="add-coupon-container">
         <TopBar selected={3} navBarOn={true} history={this.props.history}/>
         <Container>
           <h1>Add Coupon</h1>
@@ -72,7 +94,8 @@ class AddCoupon extends React.Component {
             </FormGroup>
             <FormGroup>
               <Label for="categoryForm">Category</Label>
-                <Input type="select" name="category" id="categoryForm">
+                <Input type="select" name="category" id="categoryForm" defaultValue="default">
+                    <option disabled value="default">Select Catergory</option>
                     <option>Clothes</option>
                     <option>Electronics</option>
                     <option>Entertainment</option>
@@ -83,9 +106,22 @@ class AddCoupon extends React.Component {
                 </Input>
             </FormGroup>
             <FormGroup>
-              <Label for="locationForm">Where is the coupon stored?</Label>
+              <Label for="locationForm">Where is the Coupon Stored?</Label>
               <Input name="location" id="locationForm" placeholder="ex: Wallet, Coupon Drawer, Pocket"/>
             </FormGroup>
+            <FormGroup>
+              <Label for="discoverableCheckBox">Make Discoverable?</Label>
+              <Input type="checkbox" id="discoverableBox" name="discoverable"/>
+            </FormGroup>
+            <FormGroup>
+              <Label for="zipForm">ZIP Code:</Label>
+              <Input disabled={!this.state.discoverable} name="zip" id="zipForm" placeholder="Enter ZIP Code (leave blank if universal)" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="discoverLocationForm">Enter Coupon Location:</Label>
+              <Input disabled={!this.state.discoverable} name="discoverLocation" id="discoverLocationForm" placeholder="ex: LA Times, pg. 1" />
+            </FormGroup>
+
           </Form>
           <Button onClick={this.onCancel}>Cancel</Button>
           <Button onClick={this.onSubmit}>Submit</Button>

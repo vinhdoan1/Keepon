@@ -25,41 +25,41 @@ class Home extends React.Component {
   render() {
     var filters = [];
 
+    filters.push(function(coupon) {
+      return !coupon.used;
+    });
+
     // filter that looks at the search term
     filters.push(function(coupon) {
       var searchTerm = this.state.searchTerm;
       if (searchTerm == "")
         return true;
-      return coupon.savings.includes(searchTerm) || coupon.store.includes(searchTerm) || coupon.category.includes(searchTerm);
+        console.log(coupon);
+      return (coupon.savings && coupon.savings.includes(searchTerm)) ||
+       (coupon.store && coupon.store.includes(searchTerm)) ||
+        (coupon.category && coupon.category.includes(searchTerm));
     }.bind(this));
-
-    filters.push(function(coupon) {
-      return !coupon.used;
-    });
 
     var buttons = [];
 
-
-    /*
-    var addToShoppingListFunc = function(userID, coupon) {
-
+    var addToShoppingListFunc = function(userID, couponID) {
+      api.addCouponToShoppingList(userID, couponID);
     }
-    buttons.push{
+    buttons.push({
       buttonText: "Add to Shopping List",
-      buttonFunc:
+      buttonFunc: addToShoppingListFunc,
+      buttonColor: "primary",
+    })
 
+    var markCouponFunc = function(userID, couponID) {
+      api.markCoupon(userID, couponID, true);
     }
+    buttons.push({
+      buttonText: "Use Coupon",
+      buttonColor: "primary",
+      buttonFunc: markCouponFunc,
+    });
 
-    <Button color="primary" onClick={() => {
-        api.addCouponToShoppingList(this.props.userProfile.userID, id);
-        this.toggleModal(id, false);
-      }}>Add to Shopping List</Button>
-      <Button color="primary" onClick={() => {
-          api.markCoupon(this.props.userProfile.userID, id, true);
-          this.refreshCouponList();
-          this.toggleModal(id, false);
-        }}>Use Coupon</Button>
-        */
 
     return (
       <div name="login-container">
@@ -82,6 +82,7 @@ class Home extends React.Component {
           <CouponData
             cols={2}
             filters={filters}
+            buttons={buttons}
             />
         </Container>
       </div>

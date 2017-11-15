@@ -21,11 +21,20 @@ data structure:
       category,
       location,
       used,
-      discoverable,
-      zip
     }
     shoppinglist: []
   },
+  discoverableCoupons: [
+  {
+    savings,
+    store,
+    date,
+    category,
+    location,
+    used,
+    zip,
+    discoverLocation,
+  }]
 }
 */
 
@@ -35,6 +44,10 @@ function saveUser(users) {
 
 function saveUserData(userdata) {
   localStorage.setItem('alluserdata', JSON.stringify(userdata));
+}
+
+function saveDiscoverCoupons(discoverCoupons) {
+  localStorage.setItem('discovercoupons', JSON.stringify(discoverCoupons));
 }
 
 // generates unique ID
@@ -62,6 +75,17 @@ function getUserData() {
     saveUserData(allUserData);
   }
   return allUserData;
+}
+
+function getDiscoverCoupons() {
+  var discoverCouponString = localStorage.getItem("discovercoupons");
+  var discoverCouponData = [];
+  if (discoverCouponString != null) {
+    discoverCouponData = JSON.parse(allUserDataString);
+  } else {
+    saveDiscoverCoupons(discoverCouponData);
+  }
+  return discoverCouponData;
 }
 
 function getUserIDFromCredentials(name, pass) {
@@ -97,7 +121,7 @@ function addUser(username, password) {
   return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip) {
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
@@ -110,12 +134,27 @@ function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDisco
     used: false,
     discoverable: cDiscoverable,
     zip: cZip,
+    discoverLocation: cDiscoverLocation,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);
 }
 
-function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip) {
+function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, cZip, cDiscoverLocation) {
+  var allDiscoverCoupons = getDiscoverCoupons();
+  allDiscoverCoupons.push({
+    savings: cSavings,
+    store: cStore,
+    date: cDate,
+    category: cCategory,
+    location: cLocation,
+    zip: cZip,
+    discoverLocation: cDiscoverLocation,
+  });
+  saveDiscoverCoupons(allDiscoverCoupons);
+}
+
+function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   userData.coupons[couponID] = {
@@ -124,9 +163,9 @@ function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocat
     date: cDate,
     category: cCategory,
     location: cLocation,
-    used: false,
     discoverable: cDiscoverable,
     zip: cZip,
+    discoverLocation: cDiscoverLocation,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);
@@ -199,6 +238,7 @@ module.exports = {
   editCoupon: editCoupon,
   markCoupon: markCoupon,
   addCouponToShoppingList: addCouponToShoppingList,
+  getDiscoverCoupons: getDiscoverCoupons,
   getCoupons: getCoupons,
   getMarkedCoupons: getMarkedCoupons,
 };

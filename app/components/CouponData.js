@@ -134,6 +134,17 @@ class CouponData extends React.Component {
 
     var couponModals = this.state.coupons.map(function(coupon, i) {
       var id = coupon.id;
+      var couponModalButtons;
+      if (this.props.buttons) {
+        couponModalButtons = this.props.buttons.map(function(button, j) {
+          return <Button key={j} color={button.buttonColor} onClick={() => {
+              button.buttonFunc(this.props.userProfile.userID, id);
+              this.refreshCouponList();
+              this.toggleModal(id, false);
+            }}>{button.buttonText}</Button>
+        }.bind(this));
+      }
+
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
           <ModalHeader toggle={() => {this.toggleModal(id, false)}}>{coupon.savings}</ModalHeader>
@@ -144,14 +155,13 @@ class CouponData extends React.Component {
             Expiration Date: {coupon.date}
           </ModalBody>
           <ModalBody>
-            location: {coupon.location}
+            Category: {coupon.category}
+          </ModalBody>
+          <ModalBody>
+            Location: {coupon.location}
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => {
-                api.markCoupon(this.props.userProfile.userID, id, true);
-                this.refreshCouponList();
-                this.toggleModal(id, false);
-              }}>Use Coupon</Button>
+            {couponModalButtons}
             <Button color="secondary" onClick={() => {this.toggleModal(id, false)}}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -174,6 +184,7 @@ CouponData.propTypes = {
   sort: PropTypes.func, // which sort function is applied
   buttons: PropTypes.arrayOf(PropTypes.shape({ // buttons and thier function
     buttonText: PropTypes.string,
+    buttonColor: PropTypes.string, // color of button
     buttonFunc: PropTypes.func, // takes in userID and couponID
   })),
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
