@@ -46,16 +46,20 @@ class AddCoupon extends React.Component {
   }
 
   onSubmit() {
+    var date = new Date(this.state.date);
+    var dateUTC = date.getTime();
+    var dateAdded = Date.now();
     api.addCoupon(
       this.props.userProfile.userID,
       this.state.savings,
       this.state.store,
-      this.state.date,
+      dateUTC,
       this.state.category,
       this.state.location,
       this.state.discoverable,
       this.state.zip,
       this.state.discoverLocation,
+      dateAdded,
     )
     if (this.state.discoverable) {
       api.addCouponToDiscoverable(
@@ -66,6 +70,7 @@ class AddCoupon extends React.Component {
         this.state.location,
         this.state.zip,
         this.state.discoverLocation,
+        dateAdded,
       )
     }
     this.props.history.push({

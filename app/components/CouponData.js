@@ -53,6 +53,7 @@ class CouponData extends React.Component {
         location: coupons[userID].location,
         used: coupons[userID].used,
         zip: coupons[userID].zip,
+        dateAdded: coupons[userID].dateAdded,
       })
       couponModals[userID] = false;
     }
@@ -102,6 +103,41 @@ class CouponData extends React.Component {
     return columnCouponData;
   }
 
+  // get sorting function
+  getSortFunction(sortType) {
+    if (sortType == 0) { // expiration date
+      return (function (a,b) {
+        if (a.date < b.date)
+        return -1;
+        if (a.date > b.date)
+        return 1;
+        return 0;
+      });
+    } else if (sortType == 1) { // date added
+      return (function (a,b) {
+        if (a.dateAdded > b.dateAdded)
+        return -1;
+        if (a.dateAdded < b.dateAdded)
+        return 1;
+        return 0;
+      });
+    } else if (sortType == 2) { // store (a-z)
+      return (function (a,b) {
+        if (a.store < b.store)
+        return -1;
+        if (a.store > b.store)
+        return 1;
+        return 0;
+      });
+    }
+  }
+
+  getDateString(isoVal) {
+    var date = new Date(0);
+    date.setUTCMilliseconds(isoVal);
+    return date.toLocaleDateString();
+  }
+
   render() {
 
     // now a cols x n array because there are (cols) coupons per row
@@ -112,6 +148,12 @@ class CouponData extends React.Component {
       filteredData = filteredData.filter(this.props.filters[i]);
     }
 
+    if (this.props.sortFunc) {
+      filteredData = filteredData.sort(this.getSortFunction(this.props.sortFunc));
+    } else {
+      filteredData = filteredData.sort(this.getSortFunction(0));
+    }
+
     var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
 
     //convert coupon data into component
@@ -119,12 +161,13 @@ class CouponData extends React.Component {
       // create component card for single coupon
       var singleRowComponent = couponRow.map(function(coupon, j) {
         var id = coupon.id;
+
         return (
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
             <Card body onClick={() => {this.toggleModal(id, true)}}>
               <CardTitle>{coupon.savings}</CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
-              <CardText>Exp. {coupon.date}</CardText>
+              <CardText>{"Exp. " + this.getDateString(coupon.date)}</CardText>
             </Card>
           </Col>)
       }.bind(this));
@@ -156,7 +199,10 @@ class CouponData extends React.Component {
             Store: {coupon.store}
           </ModalBody>
           <ModalBody>
-            Expiration Date: {coupon.date}
+            Expiration Date: {this.getDateString(coupon.date)}
+          </ModalBody>
+          <ModalBody>
+            Date Added: {this.getDateString(coupon.dateAdded)}
           </ModalBody>
           <ModalBody>
             Category: {coupon.category}
@@ -193,6 +239,7 @@ CouponData.propTypes = {
   })),
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
   disoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
+  sortFunc: PropTypes.number, // function for sort
 };
 
 module.exports = CouponData;

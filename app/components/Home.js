@@ -35,38 +35,9 @@ class Home extends React.Component {
   }
 
   setSortType(sortType) {
-    console.log(sortType)
     this.setState({
       sortType: sortType,
     })
-  }
-
-  getSortFunction(sortType) {
-    if (sortType == 0) { // expiration date
-      return (function (a,b) {
-        if (a.date < b.date)
-        return -1;
-        if (a.date > b.date)
-        return 1;
-        return 0;
-      });
-    } else if (sortType == 1) { // date added
-      return (function (a,b) {
-        if (a.dateAdded < b.dateAdded)
-        return -1;
-        if (a.dateAdded > b.dateAdded)
-        return 1;
-        return 0;
-      });
-    } else if (sortType == 2) { // store (a-z)
-      return (function (a,b) {
-        if (a.store < b.store)
-        return -1;
-        if (a.store > b.store)
-        return 1;
-        return 0;
-      });
-    }
   }
 
   render() {
@@ -109,7 +80,7 @@ class Home extends React.Component {
 
     var sorts = ['Sort by Expiration Date', 'Sort by Date Added', 'Sort by Store (A-Z)'];
     var sortListGroup = sorts.map(function(sort, i) {
-      return <ListGroupItem key={i} tag="button" onClick={() => {
+      return <ListGroupItem key={i} tag="button" active={i == this.state.sortType} onClick={() => {
           this.setSortType(i);
           this.toggleSortModal();
         }} action>{sort}</ListGroupItem>
@@ -137,6 +108,7 @@ class Home extends React.Component {
             cols={2}
             filters={filters}
             buttons={buttons}
+            sortFunc={this.state.sortType}
             />
           <Modal isOpen={this.state.sortModal} toggle={this.toggleSortModal}>
               <ModalHeader toggle={this.toggleSortModal}>Sort By:</ModalHeader>
