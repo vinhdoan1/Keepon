@@ -1,12 +1,19 @@
 var stateStart = {
   couponID: "",
+  editing: false,
 }
 
-const user = (state = stateStart, action) => {
+const coupon = (state = stateStart, action) => {
   switch (action.type) {
     case 'EDITCOUPON': {
       return {
           userID: action.coupon,
+          editing: true,
+        }
+    }
+    case 'EDITCOUPONDONE': {
+      return {
+          editing: false,
         }
     }
     default:
@@ -16,4 +23,4 @@ const user = (state = stateStart, action) => {
   }
 }
 
-export default user
+export default coupon

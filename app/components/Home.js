@@ -7,7 +7,12 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import Icon from 'react-icons-kit';
 import { ic_search } from 'react-icons-kit/md/ic_search';
+import { connect } from "react-redux";
 
+@connect((store) => {
+  return {
+  }
+})
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +57,6 @@ class Home extends React.Component {
       var searchTerm = this.state.searchTerm;
       if (searchTerm == "")
         return true;
-        console.log(coupon);
       return (coupon.savings && coupon.savings.includes(searchTerm)) ||
        (coupon.store && coupon.store.includes(searchTerm)) ||
         (coupon.category && coupon.category.includes(searchTerm));
@@ -76,6 +80,18 @@ class Home extends React.Component {
       buttonText: "Use Coupon",
       buttonColor: "primary",
       buttonFunc: markCouponFunc,
+    });
+
+    var editCouponFunc = function(userID, couponID) {
+      this.props.dispatch(editcoupon(couponID));
+      this.props.history.push({
+        pathname: '/addcoupon',
+      });
+    }
+    buttons.push({
+      buttonText: "Edit Coupon",
+      buttonColor: "primary",
+      buttonFunc: editCouponFunc,
     });
 
     var sorts = ['Sort by Expiration Date', 'Sort by Date Added', 'Sort by Store (A-Z)'];

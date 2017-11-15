@@ -35,7 +35,7 @@ class CouponData extends React.Component {
     var coupons = []
     if (this.props.shoppingList) {
       coupons = api.getMarkedCoupons(this.props.userProfile.userID);
-    } else if (this.props.disoverCoupons) {
+    } else if (this.props.discoverCoupons) {
       coupons = api.getDiscoverCoupons();
     }
     else {
@@ -238,7 +238,7 @@ CouponData.propTypes = {
     buttonFunc: PropTypes.func, // takes in userID and couponID
   })),
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
-  disoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
+  discoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
   sortFunc: PropTypes.number, // function for sort
 };
 

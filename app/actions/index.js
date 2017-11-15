@@ -11,3 +11,7 @@ export const editcoupon = (coupon) => ({
   type: 'EDITCOUPON',
   couponID: coupon.id,
 })
+
+export const editcoupondone = () => ({
+  type: 'EDITCOUPONDONE',
+})

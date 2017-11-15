@@ -81,7 +81,7 @@ function getDiscoverCoupons() {
   var discoverCouponString = localStorage.getItem("discovercoupons");
   var discoverCouponData = [];
   if (discoverCouponString != null) {
-    discoverCouponData = JSON.parse(allUserDataString);
+    discoverCouponData = JSON.parse(discoverCouponString);
   } else {
     saveDiscoverCoupons(discoverCouponData);
   }

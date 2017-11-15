@@ -14,16 +14,29 @@ import { connect } from "react-redux";
 class AddCoupon extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      savings: undefined,
-      store: undefined,
-      date: undefined,
-      category: undefined,
-      location: undefined,
-      discoverable: false,
-      zip: undefined,
-      discoverLocation: undefined,
-    };
+    if (couponToEdit.editing) {
+      this.state = {
+        savings: "",
+        store: "",
+        date: 0,
+        category: "",
+        location: "",
+        discoverable: false,
+        zip: 0,
+        discoverLocation: "",
+      };
+    } else {
+      this.state = {
+        savings: "",
+        store: "",
+        date: 0,
+        category: "",
+        location: "",
+        discoverable: false,
+        zip: 0,
+        discoverLocation: "",
+      };
+    }
 
     this.onFormChange = this.onFormChange.bind(this);
     this.onCancel = this.onCancel.bind(this);
@@ -40,6 +53,7 @@ class AddCoupon extends React.Component {
   }
 
   onCancel() {
+    this.props.dispatch(editcoupondone());
     this.props.history.push({
       pathname: '/home',
     });
@@ -73,6 +87,7 @@ class AddCoupon extends React.Component {
         dateAdded,
       )
     }
+    this.props.dispatch(editcoupondone());
     this.props.history.push({
       pathname: '/home',
     });
