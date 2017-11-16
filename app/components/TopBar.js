@@ -78,7 +78,7 @@ class TopBar extends React.Component {
       <div className = 'top-bar-container'>
         <div className = 'top-bar-top'>
           <img src={keeponLogoImg}/>
-          <h1 onClick={this.handleAccountButton}>Account</h1>
+          <div className="btn btn-secondary" onClick={this.handleAccountButton}>Account</div>
         </div>
         <div className = 'top-bar-nav'>
           {this.props.navBarOn &&

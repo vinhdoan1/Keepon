@@ -243,6 +243,7 @@ module.exports = {
   login: getUserIDFromCredentials,
   addUser: addUser,
   addCoupon: addCoupon,
+  addCouponToDiscoverable: addCouponToDiscoverable,
   editCoupon: editCoupon,
   markCoupon: markCoupon,
   addCouponToShoppingList: addCouponToShoppingList,

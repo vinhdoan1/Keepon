@@ -2,6 +2,7 @@ var React = require('react');
 var TopBar = require('./TopBar');
 var CouponData = require('./CouponData');
 import { Container, Row, Col } from 'reactstrap';
+var api = require('../utils/api');
 
 class ShoppingList extends React.Component {
   constructor(props) {
