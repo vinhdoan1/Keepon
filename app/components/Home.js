@@ -132,6 +132,7 @@ class Home extends React.Component {
             filters={filters}
             buttons={buttons}
             sortFunc={this.state.sortType}
+            categorize
             />
           <Modal isOpen={this.state.sortModal} toggle={this.toggleSortModal}>
               <ModalHeader toggle={this.toggleSortModal}>Sort By:</ModalHeader>

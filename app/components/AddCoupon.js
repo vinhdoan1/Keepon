@@ -35,11 +35,11 @@ class AddCoupon extends React.Component {
       this.state = {
         savings: "",
         store: "",
-        date: 0,
+        date: "",
         category: "",
         location: "",
         discoverable: false,
-        zip: 0,
+        zip: "",
         discoverLocation: "",
       };
     }
@@ -125,7 +125,7 @@ class AddCoupon extends React.Component {
             </FormGroup>
             <FormGroup>
               <Label for="categoryForm">Category</Label>
-                <Input type="select" name="category" id="categoryForm" defaultValue="default" value={this.state.category}>
+                <Input type="select" name="category" id="categoryForm" value={this.state.category}>
                     <option disabled value="default">Select Catergory</option>
                     <option>Clothes</option>
                     <option>Electronics</option>

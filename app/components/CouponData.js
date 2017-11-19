@@ -29,6 +29,9 @@ class CouponData extends React.Component {
     };
 
     this.toggleModal = this.toggleModal.bind(this);
+    this.getDateString = this.getDateString.bind(this);
+    this.createCouponCards = this.createCouponCards.bind(this);
+    this.stylizeColsWithMonths = this.stylizeColsWithMonths.bind(this);
   }
 
   refreshCouponList() {
@@ -103,6 +106,166 @@ class CouponData extends React.Component {
     return columnCouponData;
   }
 
+  createCouponCards(columnCouponData, couponsPerRow) {
+    return columnCouponData.map(function(couponRow, i) {
+      // create component card for single coupon
+      var singleRowComponent = couponRow.map(function(coupon, j) {
+        var id = coupon.id;
+        return (
+          <Col xs={(12 / couponsPerRow) + ""} key={j}>
+            <Card body onClick={() => {this.toggleModal(id, true)}}>
+              <CardTitle>{coupon.savings}</CardTitle>
+              <CardSubtitle>{coupon.store}</CardSubtitle>
+              <CardText>{"Exp. " + this.getDateString(coupon.date)}</CardText>
+            </Card>
+          </Col>)
+      }.bind(this));
+
+      return (
+        <Row key={i}>
+          {singleRowComponent}
+        </Row>
+      )
+    }.bind(this));
+  }
+
+
+  stylizeColsWithMonths(couponsPerRow, data) {
+    if (data.length <= 0)
+      return this.nColumnize(couponsPerRow, data);
+
+    var prevDate = new Date(0);
+    prevDate.setUTCMilliseconds(data[0].date);
+    var prevMonth = prevDate.getMonth();
+    var prevYear = prevDate.getYear();
+
+    var monthDates = [];
+    var couponsMonths = [];
+
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    for (var i = 0; i < data.length; i++) {
+      var date = new Date(0);
+      date.setUTCMilliseconds(data[i].date);
+      var dateMonth = date.getMonth();
+      var dateYear = date.getYear();
+      if (prevMonth != dateMonth || prevYear != dateYear) {
+        couponsMonths.push({
+          dates: (monthDates.slice()),
+          name: (monthNames[prevMonth] + " " + (prevYear + 1900)),
+        });
+        prevMonth = dateMonth;
+        prevYear = dateYear;
+        monthDates.length = 0;
+      }
+      monthDates.push(data[i]);
+    }
+
+    couponsMonths.push({
+      dates: (monthDates.slice()),
+      name: (monthNames[prevMonth] + " " + (prevYear + 1900)),
+    });
+
+    return couponsMonths.map(function(couponMonth, i) {
+        var couponComponent = this.createCouponCards(this.nColumnize(couponsPerRow, couponMonth.dates), couponsPerRow);
+        return(
+          <div key={i}>
+            <h4>{couponMonth.name}</h4>
+            {couponComponent}
+          </div>
+        );
+    }.bind(this));
+  }
+
+  stylizeColsWithMonths(couponsPerRow, data, dateType) {
+    if (data.length <= 0)
+      return (<div></div>);
+
+    var prevDate = new Date(0);
+    prevDate.setUTCMilliseconds(data[0][dateType]);
+    var prevMonth = prevDate.getMonth();
+    var prevYear = prevDate.getYear();
+
+    var monthDates = [];
+    var couponsMonths = [];
+
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    for (var i = 0; i < data.length; i++) {
+      var date = new Date(0);
+      date.setUTCMilliseconds(data[i][dateType]);
+      var dateMonth = date.getMonth();
+      var dateYear = date.getYear();
+      if (prevMonth != dateMonth || prevYear != dateYear) {
+        couponsMonths.push({
+          dates: (monthDates.slice()),
+          name: (monthNames[prevMonth] + " " + (prevYear + 1900)),
+        });
+        prevMonth = dateMonth;
+        prevYear = dateYear;
+        monthDates.length = 0;
+      }
+      monthDates.push(data[i]);
+    }
+
+    couponsMonths.push({
+      dates: (monthDates.slice()),
+      name: (monthNames[prevMonth] + " " + (prevYear + 1900)),
+    });
+
+    return couponsMonths.map(function(couponMonth, i) {
+        var couponComponent = this.createCouponCards(this.nColumnize(couponsPerRow, couponMonth.dates), couponsPerRow);
+        return(
+          <div key={i}>
+            <h4>{couponMonth.name}</h4>
+            {couponComponent}
+          </div>
+        );
+    }.bind(this));
+  }
+
+  stylizeColsWithNames(couponsPerRow, data) {
+    if (data.length <= 0)
+      return (<div></div>);
+
+    var prevStore = data[0].store;
+
+    var storeCoupons = [];
+    var couponsAllStores = [];
+
+    for (var i = 0; i < data.length; i++) {
+      var currStore = data[i].store;
+      if (prevStore != currStore) {
+        couponsAllStores.push({
+          coupons: (storeCoupons.slice()),
+          name: prevStore,
+        });
+        prevStore = currStore;
+        storeCoupons.length = 0;
+      }
+      storeCoupons.push(data[i]);
+    }
+
+    couponsAllStores.push({
+      coupons: (storeCoupons.slice()),
+      name: prevStore,
+    });
+
+    return couponsAllStores.map(function(couponStore, i) {
+        var couponComponent = this.createCouponCards(this.nColumnize(couponsPerRow, couponStore.coupons), couponsPerRow);
+        return(
+          <div key={i}>
+            <h4>{couponStore.name}</h4>
+            {couponComponent}
+          </div>
+        );
+    }.bind(this));
+  }
+
   // get sorting function
   getSortFunction(sortType) {
     if (sortType == 0) { // expiration date
@@ -154,30 +317,24 @@ class CouponData extends React.Component {
       filteredData = filteredData.sort(this.getSortFunction(0));
     }
 
-    var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
 
-    //convert coupon data into component
-    var couponComponents = columnCouponData.map(function(couponRow, i) {
-      // create component card for single coupon
-      var singleRowComponent = couponRow.map(function(coupon, j) {
-        var id = coupon.id;
 
-        return (
-          <Col xs={(12 / couponsPerRow) + ""} key={j}>
-            <Card body onClick={() => {this.toggleModal(id, true)}}>
-              <CardTitle>{coupon.savings}</CardTitle>
-              <CardSubtitle>{coupon.store}</CardSubtitle>
-              <CardText>{"Exp. " + this.getDateString(coupon.date)}</CardText>
-            </Card>
-          </Col>)
-      }.bind(this));
-
-      return (
-        <Row key={i}>
-          {singleRowComponent}
-        </Row>
-      )
-    }.bind(this));
+    var couponComponents;
+    if (this.props.categorize) {
+        switch(this.props.sortFunc) {
+            case 1:
+                couponComponents = this.stylizeColsWithMonths(couponsPerRow, filteredData, "dateAdded");
+                break;
+            case 2:
+                couponComponents = this.stylizeColsWithNames(couponsPerRow, filteredData);
+                break;
+            default:
+                couponComponents = this.stylizeColsWithMonths(couponsPerRow, filteredData, "date");
+        }
+    } else {
+      var columnCouponData = this.nColumnize(couponsPerRow, filteredData);
+      couponComponents = this.createCouponCards(columnCouponData, couponsPerRow);
+    }
 
     var couponModals = this.state.coupons.map(function(coupon, i) {
       var id = coupon.id;
@@ -240,6 +397,7 @@ CouponData.propTypes = {
   shoppingList: PropTypes.bool, // whether it is a shopping list or not
   discoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
   sortFunc: PropTypes.number, // function for sort
+  categorize: PropTypes.bool, // whether to categorize coupons
 };
 
 module.exports = CouponData;
