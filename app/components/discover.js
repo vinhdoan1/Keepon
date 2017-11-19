@@ -34,11 +34,11 @@ class Discover extends React.Component {
     var filters = [];
 
     filters.push(function(coupon){
-      return true;
       var searchTerm = this.state.zipEntered;
+      console.log("Search: " + searchTerm);
       if(searchTerm == "")
         return true; 
-      return (coupon.zip);
+      return (coupon.zip && coupon.zip.includes(searchTerm));
     }.bind(this));
 
     return (
@@ -61,7 +61,6 @@ class Discover extends React.Component {
               </Col>
             </Row>
             <h4>Coupons for {this.state.zipDisplay} </h4>
-            <p>There are currently no discoverable coupons found in your inputted zipcode. </p>
           <CouponData 
             cols={2}
             filters={filters}
