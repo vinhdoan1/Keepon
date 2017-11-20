@@ -10,8 +10,12 @@
   padding-top: 18px;
 }
 
-/* Navigation Bar */
+.login-container {
+  background-color: #FFD2A2;
+  height: -webkit-fill-available;
+}
 
+/* Navigation Bar */
 .top-bar-container .top-bar-top img {
   width: 80px;
 }
@@ -37,7 +41,7 @@
 }
 
 .top-bar-container .top-bar-nav li :hover {
-  border-bottom: 6px solid #EE7C00;
+  border-bottom: 4px solid #EE7C00;
   color: white;
 }
 
