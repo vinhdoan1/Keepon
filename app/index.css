@@ -2,22 +2,33 @@
   font-family: 'Hind', sans-serif;
 }
 
+.h1, h1 {
+  font-size: 30px;
+}
+
+.container {
+  padding-top: 18px;
+}
+
+/* Navigation Bar */
+
 .top-bar-container .top-bar-top img {
-  width: 100px;
+  width: 80px;
 }
 
 .top-bar-container .top-bar-top .btn {
   float: right;
-  font-size: 20px;
+  margin-top: 9px;
+  margin-right: -5px;
+  font-size: 14px;
 }
 
 .top-bar-container .top-bar-top {
-
-  height: 75px;
+  height: 68px;
   padding-top: 12px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: #FFBB72;
+  background-color: white;
 }
 
 .top-bar-container .top-bar-nav ul {
@@ -29,6 +40,7 @@
   display: table-cell;
   width: 1%;
 }
+
 .top-bar-container .top-bar-nav .nav-justified > li > a {
   color: white;
   margin-bottom: 0;
@@ -36,10 +48,12 @@
 }
 
 .top-bar-container .top-bar-nav li a[class*="active"]{
-  border-bottom: 6px solid #EE7C00;
+  border-bottom: 4px solid #EE7C00;
   background-color: #FFBB72;
   color: white;
 }
+
+/* Login */
 
 .login-container img {
   width: 40%;
@@ -55,14 +69,18 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 5px;
-  background-color: #FFA94D;
-  border-color: #FFA94D;
+}
+
+.btn-secondary {
+  color: white;
+  background-color: #EE7C00;
+  border-color: #EE7C00;
 }
 
 .btn-secondary:hover {
   color: #ffffff;
-  background-color: #EE7C00;
-  border-color: #EE7C00;
+  background-color: #CC6A00;
+  border-color: #CC6A00;
 }
 
 .login-container #usernameForm {
@@ -82,6 +100,30 @@
 .login-container label.form-control-label {
   margin-left: 90px;
 }
+
+/* My Coupons */
+
+.btn-outline-primary {
+  color: #EE7C00;
+  border-color: #EE7C00;
+  background-color: transparent;
+  background-image: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: right;
+}
+
+.input-group-addon {
+  color: white;
+  background-color: #EE7C00;
+  border: 1px solid #EE7C00;
+}
+
+.form-control {
+    border-left-style: unset;
+}
+
+/* Add Coupon */
 
 .add-coupon-container #discoverableBox {
   margin-left: 10px;

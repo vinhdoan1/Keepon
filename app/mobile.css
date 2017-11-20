@@ -5,6 +5,14 @@
 
   .top-bar-container .top-bar-nav ul {
     background-color: #FFBB72;
-    font-size: 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 594px) {
+  .top-bar-container .top-bar-nav .nav-justified > li > a {
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
