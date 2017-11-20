@@ -60,7 +60,15 @@ class Discover extends React.Component {
                 <Button onClick={this.onSubmit} className="zipForm">Enter</Button>
               </Col>
             </Row>
-            <h4>Coupons for {this.state.zipDisplay} </h4>
+            {
+              (this.state.zipDisplay != "") &&
+                <h4>Coupons for {this.state.zipDisplay} </h4>
+            }
+            {
+              (this.state.zipDisplay == "") &&
+                <p><em>Begin discovering local coupons by entering a Zipcode!</em></p>
+            }
+
           <CouponData
             cols={2}
             filters={filters}

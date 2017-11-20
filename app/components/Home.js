@@ -54,18 +54,19 @@ class Home extends React.Component {
       return !coupon.used;
     });
 
+    var searchTermCaps = this.state.searchTerm.toUpperCase();
     // filter that looks at the search term
     filters.push(function(coupon) {
-      var searchTerm = this.state.searchTerm;
-      if (searchTerm == "")
+
+      if (searchTermCaps == "")
         return true;
-      return (coupon.savings && coupon.savings.indexOf(searchTerm) == 0) ||
-       (coupon.store && coupon.store.indexOf(searchTerm) == 0) ||
-        (coupon.category && coupon.category.indexOf(searchTerm) == 0);
-    }.bind(this));
+      return (coupon.savings && coupon.savings.toUpperCase().indexOf(searchTermCaps) == 0) ||
+       (coupon.store && coupon.store.toUpperCase().indexOf(searchTermCaps) == 0)
+      }.bind(this));
 
     var buttons = [];
 
+    /*
     var addToShoppingListFunc = function(userID, couponID) {
       api.addCouponToShoppingList(userID, couponID);
     }
@@ -74,6 +75,7 @@ class Home extends React.Component {
       buttonFunc: addToShoppingListFunc,
       buttonColor: "primary",
     })
+    */
 
     var markCouponFunc = function(userID, couponID) {
       api.markCoupon(userID, couponID, true);
@@ -110,7 +112,7 @@ class Home extends React.Component {
 
     return (
       <div name="login-container">
-        <TopBar selected={0} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={1} navBarOn={true} history={this.props.history}/>
         <Container>
             <h1>My Coupons</h1>
             <Row>
@@ -132,6 +134,7 @@ class Home extends React.Component {
             buttons={buttons}
             sortFunc={this.state.sortType}
             categorize
+            addCouponText
             />
           <Modal isOpen={this.state.sortModal} toggle={this.toggleSortModal}>
               <ModalHeader toggle={this.toggleSortModal}>Sort By:</ModalHeader>
