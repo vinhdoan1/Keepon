@@ -1,3 +1,10 @@
 @media (max-width: 480px) {
+  .login-container label.form-control-label {
+    margin-left: 70px;
+  }
 
+  .top-bar-container .top-bar-nav ul {
+    background-color: #FFBB72;
+    font-size: 20px;
+  }
 }
