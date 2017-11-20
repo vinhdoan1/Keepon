@@ -29,9 +29,8 @@ class TopBar extends React.Component {
 
   }
 
-  handleLinkButton(e, link) {
-
-    this.props.dispatch(logout());
+  handleLinkButton(link) {
+    this.props.dispatch(editcoupondone());
     this.props.history.push({
       pathname: '/' + link,
     });
@@ -58,7 +57,7 @@ class TopBar extends React.Component {
     var navItems = navItemNames.map(function(navItemName, i) {
       return (
           <NavItem key={i}>
-              <NavLink href={navItemName[1]} active={(i==this.props.selected)}>{navItemName[0]}</NavLink>
+              <NavLink onClick={() => {this.handleLinkButton(navItemName[1])}} active={(i==this.props.selected)}>{navItemName[0]}</NavLink>
           </NavItem>)
     }.bind(this));
 
