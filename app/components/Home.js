@@ -59,9 +59,9 @@ class Home extends React.Component {
       var searchTerm = this.state.searchTerm;
       if (searchTerm == "")
         return true;
-      return (coupon.savings && coupon.savings.includes(searchTerm)) ||
-       (coupon.store && coupon.store.includes(searchTerm)) ||
-        (coupon.category && coupon.category.includes(searchTerm));
+      return (coupon.savings && coupon.savings.indexOf(searchTerm) == 0) ||
+       (coupon.store && coupon.store.indexOf(searchTerm) == 0) ||
+        (coupon.category && coupon.category.indexOf(searchTerm) == 0);
     }.bind(this));
 
     var buttons = [];
@@ -85,7 +85,6 @@ class Home extends React.Component {
     });
 
     var editCouponFunc = function(userID, couponID) {
-      console.log(couponID);
       var coupon = {
         id: couponID,
       }
@@ -115,7 +114,7 @@ class Home extends React.Component {
         <Container>
             <h1>My Coupons</h1>
             <Row>
-              <Col xs={10} sm={10}>
+              <Col xs={9} sm={10}>
                 <FormGroup onChange={this.onSearchChange}>
                   <InputGroup>
                     <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
@@ -123,7 +122,7 @@ class Home extends React.Component {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs={2} sm={2}>
+              <Col xs={3} sm={2}>
                 <Button outline color="primary" onClick={this.toggleSortModal}>Sort</Button>
               </Col>
             </Row>

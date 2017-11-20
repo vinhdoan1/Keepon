@@ -13,8 +13,8 @@ class Discover extends React.Component {
     super(props);
     this.state = {
       value: undefined,
-      zipEntered: undefined,
-      zipDisplay: undefined,
+      zipEntered: "",
+      zipDisplay: "",
     };
 
     this.onChange = this.onChange.bind(this);
@@ -34,15 +34,15 @@ class Discover extends React.Component {
     var filters = [];
 
     filters.push(function(coupon){
-      var searchTerm = this.state.zipEntered;
+      var searchTerm = this.state.zipDisplay;
       console.log("Search: " + searchTerm);
       if(searchTerm == "")
-        return true; 
+        return false;
       return (coupon.zip && coupon.zip.includes(searchTerm));
     }.bind(this));
 
     return (
-      <div name="discover-container">
+      <div className="discover-container">
         <TopBar selected={2} navBarOn={true} history={this.props.history}/>
         <Container>
             <Row>
@@ -50,18 +50,18 @@ class Discover extends React.Component {
               <h1>Discover</h1>
               </Col>
               <Col xs={4} sm={4}>
-                <form onChange={this.onChange}>
+                <form onChange={this.onChange} className="zipForm">
                   <FormGroup>
                     <Input type="text" value={this.state.value} onChange={this.onChange} placeholder="Enter Zipcode"/>
                   </FormGroup>
                 </form>
               </Col>
               <Col xs={2} sm={2}>
-                <Button onClick={this.onSubmit}>Enter</Button>
+                <Button onClick={this.onSubmit} className="zipForm">Enter</Button>
               </Col>
             </Row>
             <h4>Coupons for {this.state.zipDisplay} </h4>
-          <CouponData 
+          <CouponData
             cols={2}
             filters={filters}
             discoverCoupons

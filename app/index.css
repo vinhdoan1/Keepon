@@ -17,12 +17,17 @@
   padding-top: 12px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: #FFBB72;
+  background-color: #FFD2A2;
 }
 
 .top-bar-container .top-bar-nav ul {
   background-color: #FFBB72;
   font-size: 20px;
+}
+
+.top-bar-container .top-bar-nav li :hover {
+  border-bottom: 6px solid #EE7C00;
+  color: white;
 }
 
 .top-bar-container .top-bar-nav .nav-justified > li {
@@ -35,7 +40,7 @@
   border-radius: 0;
 }
 
-.top-bar-container .top-bar-nav li a[class*="active"]{
+.top-bar-container .top-bar-nav li [class*="active"]{
   border-bottom: 6px solid #EE7C00;
   background-color: #FFBB72;
   color: white;
@@ -57,6 +62,12 @@
   margin-top: 5px;
   background-color: #FFA94D;
   border-color: #FFA94D;
+}
+
+.btn-secondary {
+  color: #ffffff;
+  background-color: #FFBB72;
+  border-color: #FFBB72;
 }
 
 .btn-secondary:hover {
@@ -90,4 +101,12 @@
 
 .modalButtons button{
   font-size: small;
+}
+
+.discover-container .zipForm {
+  margin-top: 10px;
+}
+
+.add-coupon-container .addCouponButton {
+  margin-right: 5px;
 }

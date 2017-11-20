@@ -26,11 +26,15 @@ class TopBar extends React.Component {
     this.setState({
       accountModal: !this.state.accountModal,
     })
-    /*
+
+  }
+
+  handleLinkButton(e, link) {
+
     this.props.dispatch(logout());
     this.props.history.push({
-      pathname: '/',
-    }); */
+      pathname: '/' + link,
+    });
   }
 
   toggleAccountModal() {
