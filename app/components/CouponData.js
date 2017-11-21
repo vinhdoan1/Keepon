@@ -351,7 +351,9 @@ class CouponData extends React.Component {
 
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
-          <ModalHeader toggle={() => {this.toggleModal(id, false)}}>{coupon.savings}</ModalHeader>
+          <ModalHeader toggle={() => {this.toggleModal(id, false)}}>
+            {coupon.savings}
+          </ModalHeader>
           <ModalBody>
             Store: {coupon.store}
           </ModalBody>
@@ -360,9 +362,6 @@ class CouponData extends React.Component {
           </ModalBody>
           <ModalBody>
             Date Added: {this.getDateString(coupon.dateAdded)}
-          </ModalBody>
-          <ModalBody>
-            Category: {coupon.category}
           </ModalBody>
           <ModalBody>
             Location: {coupon.location}
@@ -379,6 +378,10 @@ class CouponData extends React.Component {
       <div className="coupon-data-container">
           {couponModals}
           {couponComponents}
+          {
+            (this.props.addCouponText && this.state.coupons.length <= 0) &&
+            <p><em>No coupons have been added yet! Add your first coupon with the <strong>Add Coupon</strong> button above!</em></p>
+          }
       </div>
     )
   }
@@ -398,6 +401,7 @@ CouponData.propTypes = {
   discoverCoupons: PropTypes.bool, // whether it is a discoverCoupons
   sortFunc: PropTypes.number, // function for sort
   categorize: PropTypes.bool, // whether to categorize coupons
+  addCouponText: PropTypes.bool, // whether to include text to add coupon if there are none
 };
 
 module.exports = CouponData;

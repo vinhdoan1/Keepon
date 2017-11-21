@@ -69,18 +69,34 @@ class AddCoupon extends React.Component {
     var date = new Date(this.state.date);
     var dateUTC = date.getTime();
     var dateAdded = Date.now();
-    api.addCoupon(
-      this.props.userProfile.userID,
-      this.state.savings,
-      this.state.store,
-      dateUTC,
-      this.state.category,
-      this.state.location,
-      this.state.discoverable,
-      this.state.zip,
-      this.state.discoverLocation,
-      dateAdded,
-    )
+    if (this.props.couponToEdit.editing) {
+      api.editCoupon(
+        this.props.userProfile.userID,
+        this.props.couponToEdit.couponID,
+        this.state.savings,
+        this.state.store,
+        dateUTC,
+        this.state.category,
+        this.state.location,
+        this.state.discoverable,
+        this.state.zip,
+        this.state.discoverLocation,
+        dateAdded,
+      )
+    } else {
+      api.addCoupon(
+        this.props.userProfile.userID,
+        this.state.savings,
+        this.state.store,
+        dateUTC,
+        this.state.category,
+        this.state.location,
+        this.state.discoverable,
+        this.state.zip,
+        this.state.discoverLocation,
+        dateAdded,
+      )
+    }
     if (this.state.discoverable) {
       api.addCouponToDiscoverable(
         this.state.savings,
@@ -107,7 +123,7 @@ class AddCoupon extends React.Component {
 
     return (
       <div className="add-coupon-container">
-        <TopBar selected={3} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={0} navBarOn={true} history={this.props.history}/>
         <Container>
           <h1>{headerText}</h1>
           <Form onChange={this.onFormChange}>
@@ -122,19 +138,6 @@ class AddCoupon extends React.Component {
             <FormGroup>
               <Label for="dateForm">Expiration Date</Label>
               <Input type="date" name="date" id="dateForm" value={this.state.date}/>
-            </FormGroup>
-            <FormGroup>
-              <Label for="categoryForm">Category</Label>
-                <Input type="select" name="category" id="categoryForm" value={this.state.category}>
-                    <option disabled value="default">Select Catergory</option>
-                    <option>Clothes</option>
-                    <option>Electronics</option>
-                    <option>Entertainment</option>
-                    <option>Food</option>
-                    <option>Furniture</option>
-                    <option>Office</option>
-                    <option>Sports</option>
-                </Input>
             </FormGroup>
             <FormGroup>
               <Label for="locationForm">Where is the Coupon Stored?</Label>
@@ -154,8 +157,8 @@ class AddCoupon extends React.Component {
             </FormGroup>
 
           </Form>
-          <Button onClick={this.onCancel}>Cancel</Button>
-          <Button onClick={this.onSubmit}>Submit</Button>
+          <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
+          <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
         </Container>
       </div>
     )

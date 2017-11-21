@@ -10,8 +10,12 @@
   padding-top: 18px;
 }
 
-/* Navigation Bar */
+.login-container {
+  background-color: #FFD2A2;
+  height: -webkit-fill-available;
+}
 
+/* Navigation Bar */
 .top-bar-container .top-bar-top img {
   width: 80px;
 }
@@ -28,12 +32,17 @@
   padding-top: 12px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: white;
+  background-color: #FFD2A2;
 }
 
 .top-bar-container .top-bar-nav ul {
   background-color: #FFBB72;
   font-size: 20px;
+}
+
+.top-bar-container .top-bar-nav li :hover {
+  border-bottom: 4px solid #EE7C00;
+  color: white;
 }
 
 .top-bar-container .top-bar-nav .nav-justified > li {
@@ -47,7 +56,7 @@
   border-radius: 0;
 }
 
-.top-bar-container .top-bar-nav li a[class*="active"]{
+.top-bar-container .top-bar-nav li [class*="active"]{
   border-bottom: 4px solid #EE7C00;
   background-color: #FFBB72;
   color: white;
@@ -72,7 +81,13 @@
 }
 
 .btn-secondary {
-  color: white;
+  color: #ffffff;
+  background-color: #FFBB72;
+  border-color: #FFBB72;
+}
+
+.btn-secondary:hover {
+  color: #ffffff;
   background-color: #EE7C00;
   border-color: #EE7C00;
 }
@@ -132,4 +147,12 @@
 
 .modalButtons button{
   font-size: small;
+}
+
+.discover-container .zipForm {
+  margin-top: 10px;
+}
+
+.add-coupon-container .addCouponButton {
+  margin-right: 5px;
 }

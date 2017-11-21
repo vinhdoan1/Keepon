@@ -26,11 +26,14 @@ class TopBar extends React.Component {
     this.setState({
       accountModal: !this.state.accountModal,
     })
-    /*
-    this.props.dispatch(logout());
+
+  }
+
+  handleLinkButton(link) {
+    this.props.dispatch(editcoupondone());
     this.props.history.push({
-      pathname: '/',
-    }); */
+      pathname: '/' + link,
+    });
   }
 
   toggleAccountModal() {
@@ -44,17 +47,17 @@ class TopBar extends React.Component {
 
     var navItemNames =
     [
-      ['My Coupons', 'home'],
-      ['Shopping List', 'shoppinglist'],
-      ['Discover', 'discover'],
       ['Add Coupon', 'addcoupon'],
+      ['My Coupons', 'home'],
+    //  ['Shopping List', 'shoppinglist'],
+      ['Discover', 'discover'],
     ];
     //var navItemNames = ['Add Coupon', 'My Coupons', 'Shopping List'];
 
     var navItems = navItemNames.map(function(navItemName, i) {
       return (
           <NavItem key={i}>
-              <NavLink href={navItemName[1]} active={(i==this.props.selected)}>{navItemName[0]}</NavLink>
+              <NavLink onClick={() => {this.handleLinkButton(navItemName[1])}} active={(i==this.props.selected)}>{navItemName[0]}</NavLink>
           </NavItem>)
     }.bind(this));
 

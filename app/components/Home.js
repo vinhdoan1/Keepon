@@ -54,18 +54,19 @@ class Home extends React.Component {
       return !coupon.used;
     });
 
+    var searchTermCaps = this.state.searchTerm.toUpperCase();
     // filter that looks at the search term
     filters.push(function(coupon) {
-      var searchTerm = this.state.searchTerm;
-      if (searchTerm == "")
+
+      if (searchTermCaps == "")
         return true;
-      return (coupon.savings && coupon.savings.includes(searchTerm)) ||
-       (coupon.store && coupon.store.includes(searchTerm)) ||
-        (coupon.category && coupon.category.includes(searchTerm));
-    }.bind(this));
+      return (coupon.savings && coupon.savings.toUpperCase().indexOf(searchTermCaps) == 0) ||
+       (coupon.store && coupon.store.toUpperCase().indexOf(searchTermCaps) == 0)
+      }.bind(this));
 
     var buttons = [];
 
+    /*
     var addToShoppingListFunc = function(userID, couponID) {
       api.addCouponToShoppingList(userID, couponID);
     }
@@ -74,6 +75,7 @@ class Home extends React.Component {
       buttonFunc: addToShoppingListFunc,
       buttonColor: "primary",
     })
+    */
 
     var markCouponFunc = function(userID, couponID) {
       api.markCoupon(userID, couponID, true);
@@ -85,7 +87,6 @@ class Home extends React.Component {
     });
 
     var editCouponFunc = function(userID, couponID) {
-      console.log(couponID);
       var coupon = {
         id: couponID,
       }
@@ -111,11 +112,11 @@ class Home extends React.Component {
 
     return (
       <div name="login-container">
-        <TopBar selected={0} navBarOn={true} history={this.props.history}/>
+        <TopBar selected={1} navBarOn={true} history={this.props.history}/>
         <Container>
             <h1>My Coupons</h1>
             <Row>
-              <Col xs={10} sm={10}>
+              <Col xs={9} sm={10}>
                 <FormGroup onChange={this.onSearchChange}>
                   <InputGroup>
                     <InputGroupAddon><Icon icon={ic_search}/></InputGroupAddon>
@@ -123,7 +124,7 @@ class Home extends React.Component {
                   </InputGroup>
                 </FormGroup>
               </Col>
-              <Col xs={2} sm={2}>
+              <Col xs={3} sm={2}>
                 <Button outline color="primary" onClick={this.toggleSortModal}>Sort</Button>
               </Col>
             </Row>
@@ -133,6 +134,7 @@ class Home extends React.Component {
             buttons={buttons}
             sortFunc={this.state.sortType}
             categorize
+            addCouponText
             />
           <Modal isOpen={this.state.sortModal} toggle={this.toggleSortModal}>
               <ModalHeader toggle={this.toggleSortModal}>Sort By:</ModalHeader>
