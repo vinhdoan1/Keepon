@@ -44,6 +44,7 @@ class TopBar extends React.Component {
 
   render() {
     var keeponLogoImg = require('../images/keepon_logo.png');
+    var accountIcon = require('../images/account_icon.png');
 
     var navItemNames =
     [
@@ -81,7 +82,10 @@ class TopBar extends React.Component {
       <div className = 'top-bar-container'>
         <div className = 'top-bar-top'>
           <img src={keeponLogoImg}/>
-          <div className="btn btn-secondary" onClick={this.handleAccountButton}>Account</div>
+          <div className="btn btn-secondary" onClick={this.handleAccountButton}>
+            Account
+              <img src={accountIcon}/>
+          </div>
         </div>
         <div className = 'top-bar-nav'>
           {this.props.navBarOn &&
