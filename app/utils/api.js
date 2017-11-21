@@ -121,7 +121,7 @@ function addUser(username, password) {
   return newID;
 }
 
-function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cDateAdded) {
+function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cDateAdded, cIsPicture, cPicture) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   var id = generateID();
@@ -136,12 +136,14 @@ function addCoupon(userID, cSavings, cStore, cDate, cCategory, cLocation, cDisco
     zip: cZip,
     discoverLocation: cDiscoverLocation,
     dateAdded: cDateAdded,
+    isPicture: cIsPicture,
+    picture: cPicture,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);
 }
 
-function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, cZip, cDiscoverLocation, cDateAdded) {
+function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, cZip, cDiscoverLocation, cDateAdded, cIsPicture, cPicture) {
   var allDiscoverCoupons = getDiscoverCoupons();
   allDiscoverCoupons.push({
     savings: cSavings,
@@ -152,11 +154,13 @@ function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, 
     zip: cZip,
     discoverLocation: cDiscoverLocation,
     dateAdded: cDateAdded,
+    isPicture: cIsPicture,
+    picture: cPicture,
   });
   saveDiscoverCoupons(allDiscoverCoupons);
 }
 
-function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation) {
+function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cIsPicture, cPicture) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   userData.coupons[couponID] = {
@@ -168,6 +172,8 @@ function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocat
     discoverable: cDiscoverable,
     zip: cZip,
     discoverLocation: cDiscoverLocation,
+    isPicture: cIsPicture,
+    picture: cPicture,
   };
   allUserData[userID] = userData;
   saveUserData(allUserData);

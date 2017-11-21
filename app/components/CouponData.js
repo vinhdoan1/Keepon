@@ -57,6 +57,8 @@ class CouponData extends React.Component {
         used: coupons[userID].used,
         zip: coupons[userID].zip,
         dateAdded: coupons[userID].dateAdded,
+        isPicture: coupons[userID].isPicture,
+        picture: coupons[userID].picture,
       })
       couponModals[userID] = false;
     }
@@ -114,7 +116,10 @@ class CouponData extends React.Component {
         return (
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
             <Card body onClick={() => {this.toggleModal(id, true)}}>
-              <CardTitle>{coupon.savings}</CardTitle>
+              <CardTitle>
+                {(coupon.isPicture) && "Coupon"}
+                {(!coupon.isPicture) && coupon.savings}
+              </CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
               <CardText>{"Exp. " + this.getDateString(coupon.date)}</CardText>
             </Card>
@@ -352,8 +357,15 @@ class CouponData extends React.Component {
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
           <ModalHeader toggle={() => {this.toggleModal(id, false)}}>
-            {coupon.savings}
+            {(coupon.isPicture) && "Coupon"}
+            {(!coupon.isPicture) && coupon.savings}
           </ModalHeader>
+          {
+            (coupon.isPicture) &&
+            <ModalBody>
+              <img src={coupon.picture}></img>
+            </ModalBody>
+          }
           <ModalBody>
             Store: {coupon.store}
           </ModalBody>

@@ -140,7 +140,7 @@
 
 /* Add Coupon */
 
-.add-coupon-container #discoverableBox {
+.add-coupon-container #discoverableBox, .add-coupon-2-container #discoverableBox{
   margin-left: 10px;
   height: 20px;
 }
@@ -153,6 +153,6 @@
   margin-top: 10px;
 }
 
-.add-coupon-container .addCouponButton {
+.add-coupon-container .addCouponButton,  .add-coupon-2-container .addCouponButton{
   margin-right: 5px;
 }

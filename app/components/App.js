@@ -3,6 +3,7 @@ var Login = require('./Login');
 var Home = require('./Home');
 var ShoppingList = require('./ShoppingList');
 var AddCoupon = require('./AddCoupon');
+var AddCoupon2 = require('./AddCoupon2');
 var Discover = require('./Discover');
 var NewUser = require('./NewUser');
 var HistoryPage = require('./History');
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Route path='/home' component={Home} />
           <Route path='/shoppinglist' component={ShoppingList} />
           <Route path='/addcoupon' component={AddCoupon} />
+          <Route path='/addcoupon2' component={AddCoupon2} />
           <Route path='/discover' component={Discover} />
           <Route path='/newuser' component={NewUser} />
           <Route path='/history' component={HistoryPage} />
