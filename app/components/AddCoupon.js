@@ -157,8 +157,10 @@ class AddCoupon extends React.Component {
             </FormGroup>
 
           </Form>
-          <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
-          <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
+          <div className="add-coupon-buttons">
+            <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
+            <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
+          </div>
         </Container>
       </div>
     )

@@ -4,6 +4,11 @@
 
 .h1, h1 {
   font-size: 30px;
+  font-color: #595959;
+}
+
+body {
+  background-color: #F9F9F9;
 }
 
 .container {
@@ -16,27 +21,30 @@
 }
 
 /* Navigation Bar */
+
+/* Keepon Logo */
 .top-bar-container .top-bar-top img {
   width: 80px;
 }
 
+/* Account Icon */
 .top-bar-container .btn-secondary img {
-  width:18px;
+  width: 20px;
   padding-left: 4px;
-  padding-bottom: 2px;
+  padding-bottom: 3px;
 }
 
+/* Account Button */
 .top-bar-container .top-bar-top .btn {
   float: right;
-  margin-top: 9px;
   margin-right: -5px;
-  font-size: 14px;
+  font-size: 16px;
   background-color: transparent;
   border-color: transparent;
 }
 
 .top-bar-container .top-bar-top {
-  height: 68px;
+  height: 64px;
   padding-top: 12px;
   padding-left: 15px;
   padding-right: 15px;
@@ -44,13 +52,12 @@
 }
 
 .top-bar-container .top-bar-nav ul {
-  background-color: #FFBB72;
+  background-color: #FFA94D;
   font-size: 20px;
 }
 
 .top-bar-container .top-bar-nav li :hover {
   border-bottom: 4px solid #EE7C00;
-  color: white;
 }
 
 .top-bar-container .top-bar-nav .nav-justified > li {
@@ -66,7 +73,7 @@
 
 .top-bar-container .top-bar-nav li [class*="active"]{
   border-bottom: 4px solid #EE7C00;
-  background-color: #FFBB72;
+  background-color: #FFA94D;
   color: white;
 }
 
@@ -90,8 +97,8 @@
 
 .btn-secondary {
   color: #ffffff;
-  background-color: #FFBB72;
-  border-color: #FFBB72;
+  background-color: #FFA94D;
+  border-color: #FFA94D;
 }
 
 .btn-secondary:hover {
@@ -111,6 +118,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 8px;
+  border: 1px solid white;
 }
 
 .login-container #passForm {
@@ -118,33 +126,31 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 8px;
+  border: 1px solid white;
 }
 
 .login-container label.form-control-label {
   margin-left: 90px;
+  color: white;
 }
 
 /* My Coupons */
 
 .btn-outline-primary {
-  color: #EE7C00;
-  border-color: #EE7C00;
-  background-color: transparent;
+  color: white;
+  border-color: #FFA94D;
+  background-color: #FFA94D;
   background-image: none;
   padding-left: 10px;
-  padding-right: 10px;
-  float: right;
+  padding-right: 15px;
+  float: left;
 }
 
 .input-group-addon {
   color: white;
-  background-color: #EE7C00;
-  border: 1px solid #EE7C00;
+  background-color: #FFA94D;
+  border: 1px solid #FFA94D;
 }
-
-/*.form-control {
-    border-left-style: unset;
-}*/
 
 /* Add Coupon */
 
@@ -153,14 +159,19 @@
   height: 20px;
 }
 
-.modalButtons button{
+.modalButtons button {
   font-size: small;
 }
 
-.discover-container .zipForm {
-  margin-top: 10px;
+.add-coupon-container .addCouponButton {
+  margin-right: 25px;
+  width: 5rem;
 }
 
-.add-coupon-container .addCouponButton {
-  margin-right: 5px;
+.add-coupon-buttons {
+  text-align: center;
 }
+
+
+
+/* Discover */
