@@ -82,6 +82,8 @@ class AddCoupon extends React.Component {
         this.state.zip,
         this.state.discoverLocation,
         dateAdded,
+        false,
+        "",
       )
     } else {
       api.addCoupon(
@@ -95,6 +97,8 @@ class AddCoupon extends React.Component {
         this.state.zip,
         this.state.discoverLocation,
         dateAdded,
+        false,
+        "",
       )
     }
     if (this.state.discoverable) {
@@ -107,6 +111,8 @@ class AddCoupon extends React.Component {
         this.state.zip,
         this.state.discoverLocation,
         dateAdded,
+        false,
+        "",
       )
     }
     this.props.dispatch(editcoupondone());

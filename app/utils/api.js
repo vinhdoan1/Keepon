@@ -160,7 +160,7 @@ function addCouponToDiscoverable(cSavings, cStore, cDate, cCategory, cLocation, 
   saveDiscoverCoupons(allDiscoverCoupons);
 }
 
-function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cIsPicture, cPicture) {
+function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocation, cDiscoverable, cZip, cDiscoverLocation, cDateAdded, cIsPicture, cPicture) {
   var allUserData = getUserData();
   var userData = allUserData[userID];
   userData.coupons[couponID] = {
@@ -172,6 +172,7 @@ function editCoupon(userID, couponID, cSavings, cStore, cDate, cCategory, cLocat
     discoverable: cDiscoverable,
     zip: cZip,
     discoverLocation: cDiscoverLocation,
+    dateAdded: cDateAdded,
     isPicture: cIsPicture,
     picture: cPicture,
   };
