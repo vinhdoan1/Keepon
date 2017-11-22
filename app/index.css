@@ -194,4 +194,9 @@ body {
   margin-bottom: 10px;
 }
 
+.coupon-data-container .card-title{
+  height: 1.5rem;
+  overflow-y: hidden;
+}
+
 /* Discover */
