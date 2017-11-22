@@ -174,4 +174,30 @@ body {
   width: 5rem;
 }
 
+.coupon-data-container .expired{
+  opacity: .5;
+}
+
+.coupon-data-container .expiringSoon {
+  background-color: #cd5c5c;
+  color: #FFFFFF;
+}
+
+.coupon-data-container .card:hover{
+  background-color: #e6e6e6;
+}
+
+.coupon-data-container .expiringSoon:hover {
+  background-color: #9c3f3f;
+}
+
+.coupon-data-container .card{
+  margin-bottom: 10px;
+}
+
+.coupon-data-container .card-title{
+  height: 1.5rem;
+  overflow-y: hidden;
+}
+
 /* Discover */

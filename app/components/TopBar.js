@@ -81,7 +81,9 @@ class TopBar extends React.Component {
     return (
       <div className = 'top-bar-container'>
         <div className = 'top-bar-top'>
-          <img src={keeponLogoImg}/>
+          <a href='/home'>
+            <img src={keeponLogoImg} />
+          </a>
           <div className="btn btn-secondary" onClick={this.handleAccountButton}>
             Account
               <img src={accountIcon}/>

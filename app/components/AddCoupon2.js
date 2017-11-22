@@ -200,6 +200,7 @@ class AddCoupon2 extends React.Component {
             <FormGroup>
               <Label for="discoverableCheckBox">Make Discoverable?</Label>
               <Input type="checkbox" id="discoverableBox" name="discoverable" value={this.state.discoverable}/>
+              <p><sup>*Adds coupon to public database for anyone to discover!</sup></p>
             </FormGroup>
             <FormGroup>
               <Label for="zipForm">ZIP Code:</Label>
