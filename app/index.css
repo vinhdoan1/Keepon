@@ -171,6 +171,7 @@ body {
 .add-coupon-container .addCouponButton,  .add-coupon-2-container .addCouponButton{
   margin-right: 5px;
   text-align: center;
+  width: 5rem;
 }
 
 .coupon-data-container .expired{
