@@ -5,17 +5,9 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 var api = require('../utils/api');
 import { connect } from "react-redux";
 import { editcoupondone } from "../actions/";
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110103238-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-110103238-1');
-</script>
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-110103238-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 @connect((store) => {
   return {
