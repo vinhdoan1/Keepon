@@ -9,15 +9,9 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-110103238-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-<<<<<<< HEAD
 //<!-- Google Analytics Content Experiment code -->
 function utmx_section(){}function utmx(){}(function(){var
 k='165060784-0',d=document,l=d.location,c=d.cookie;
-=======
-<!-- Google Analytics Content Experiment code -->
-<script>function utmx_section(){}function utmx(){}(function(){var
-k='165060784-1',d=document,l=d.location,c=d.cookie;
->>>>>>> e1a155920e4f3ef47f68e0895c1439f3f03c9936
 if(l.search.indexOf('utm_expid='+k)>0)return;
 function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
 indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
