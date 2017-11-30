@@ -200,6 +200,8 @@ body {
   overflow-y: hidden;
 }
 
-
+.couponModalPicture {
+  width: 100%;
+}
 
 /* Discover */
