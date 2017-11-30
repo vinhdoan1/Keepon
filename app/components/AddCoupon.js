@@ -9,8 +9,8 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-110103238-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-<!-- Google Analytics Content Experiment code -->
-<script>function utmx_section(){}function utmx(){}(function(){var
+//<!-- Google Analytics Content Experiment code -->
+function utmx_section(){}function utmx(){}(function(){var
 k='165060784-0',d=document,l=d.location,c=d.cookie;
 if(l.search.indexOf('utm_expid='+k)>0)return;
 function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
@@ -21,8 +21,7 @@ length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
 '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
 valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-</script><script>utmx('url','A/B');</script>
-<!-- End of Google Analytics Content Experiment code -->
+//<!-- End of Google Analytics Content Experiment code -->
 
 @connect((store) => {
   return {
@@ -65,6 +64,10 @@ class AddCoupon extends React.Component {
     this.onFormChange = this.onFormChange.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    utmx('url','A/B');
   }
 
   onFormChange(e) {
@@ -118,6 +121,7 @@ class AddCoupon extends React.Component {
         false,
         "",
       )
+      ReactGA.ga('event', 'button', 'click');
     }
     if (this.state.discoverable) {
       api.addCouponToDiscoverable(
@@ -170,6 +174,7 @@ class AddCoupon extends React.Component {
             <FormGroup>
               <Label for="discoverableCheckBox">Make Discoverable?</Label>
               <Input type="checkbox" id="discoverableBox" name="discoverable" value={this.state.discoverable}/>
+              <p><sup>*Adds coupon to public database for anyone to discover!</sup></p>
             </FormGroup>
             <FormGroup>
               <Label for="zipForm">ZIP Code:</Label>
