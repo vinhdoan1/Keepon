@@ -373,7 +373,7 @@ class CouponData extends React.Component {
           {
             (coupon.isPicture) &&
             <ModalBody>
-              <img src={coupon.picture}></img>
+              <img className="couponModalPicture" src={coupon.picture}></img>
             </ModalBody>
           }
           <ModalBody>

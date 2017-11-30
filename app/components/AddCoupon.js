@@ -122,7 +122,7 @@ class AddCoupon extends React.Component {
         false,
         "",
       )
-      ReactGA.ga('send', ''event', 'button', 'click');
+      ReactGA.ga('send', 'event', 'button', 'click');
     }
     if (this.state.discoverable) {
       api.addCouponToDiscoverable(
