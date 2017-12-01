@@ -69,6 +69,7 @@ class AddCoupon extends React.Component {
 
   componentDidMount() {
     utmx('url','A/B');
+    ReactGA.ga('send', 'event', 'page', 'visit', 'Add Coupon 1');
   }
 
   onFormChange(e) {

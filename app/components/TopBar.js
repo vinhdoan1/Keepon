@@ -1,5 +1,6 @@
 var React = require('react');
 var PropTypes = require('prop-types');
+var ab = require('../utils/ab');
 import { Nav, NavItem, NavLink} from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
@@ -34,6 +35,11 @@ class TopBar extends React.Component {
 
   handleLinkButton(link) {
     this.props.dispatch(editcoupondone());
+    if (link === 'addcoupon') {
+      if (ab.getExperiment()) {
+        link += '2';
+      }
+    }
     this.props.history.push({
       pathname: '/' + link,
     });
