@@ -215,6 +215,7 @@ body {
 }
 
 .imageButtonsGroup {
+  margin-bottom: 2px;
 }
 
 .imageButtons {
@@ -226,6 +227,5 @@ body {
 }
 
 .imageDisplay {
-  width: 100%;
 }
 /* Discover */
