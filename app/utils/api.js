@@ -103,6 +103,14 @@ function addUser(username, password) {
   var alllUsers = getUsers();
   var allUserData = getUserData();
 
+  var user = alllUsers.find(function (user) {
+    return user.name == username;
+  });
+
+  if (user) {
+    return null;
+  }
+
   var newID = generateID();
   alllUsers.push({
     name: username,

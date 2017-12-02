@@ -127,7 +127,7 @@ class CouponData extends React.Component {
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
             <Card body onClick={() => {this.toggleModal(id, true)}} className={couponCardClass}>
               <CardTitle>
-                {(coupon.isPicture) && "Coupon"}
+                {(coupon.isPicture) && "Coupon Image"}
                 {(!coupon.isPicture) && coupon.savings}
               </CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
@@ -367,7 +367,7 @@ class CouponData extends React.Component {
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
           <ModalHeader toggle={() => {this.toggleModal(id, false)}}>
-            {(coupon.isPicture) && "Coupon"}
+            {(coupon.isPicture) && "Coupon Image"}
             {(!coupon.isPicture) && coupon.savings}
           </ModalHeader>
           {

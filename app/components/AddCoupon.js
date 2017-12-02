@@ -23,6 +23,17 @@ valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
 //<!-- End of Google Analytics Content Experiment code -->
 
+var defaultState1 = {
+  savings: "",
+  store: "",
+  date: "",
+  location: "",
+};
+
+var defaultState2 = {
+  zip: "",
+  discoverLocation: "",
+}
 
 @connect((store) => {
   return {
@@ -48,6 +59,7 @@ class AddCoupon extends React.Component {
         discoverable: coupon.discoverable,
         zip: coupon.zip,
         discoverLocation: coupon.discoverLocation,
+        errorMessage: "",
       };
     } else {
       this.state = {
@@ -59,6 +71,7 @@ class AddCoupon extends React.Component {
         discoverable: false,
         zip: "",
         discoverLocation: "",
+        errorMessage: "",
       };
     }
 
@@ -70,6 +83,10 @@ class AddCoupon extends React.Component {
   componentDidMount() {
     utmx('url','A/B');
     ReactGA.ga('send', 'event', 'page', 'visit', 'Add Coupon 1');
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(editcoupondone());
   }
 
   onFormChange(e) {
@@ -89,6 +106,22 @@ class AddCoupon extends React.Component {
   }
 
   onSubmit() {
+    for (var key in defaultState1) {
+      if (defaultState1[key] == this.state[key]) {
+        this.setState({errorMessage: "Please fill out all fields."});
+        return;
+      }
+    }
+
+    if (this.state.discoverable) {
+      for (key in defaultState2) {
+        if (defaultState2[key] == this.state[key]) {
+          this.setState({errorMessage: "Please fill out all fields."});
+          return;
+        }
+      }
+    }
+
     var date = new Date(this.state.date);
     var dateUTC = date.getTime();
     var dateAdded = Date.now();
@@ -188,6 +221,7 @@ class AddCoupon extends React.Component {
             </FormGroup>
 
           </Form>
+          <p className="errorMessage">{this.state.errorMessage}</p>
           <div className="add-coupon-buttons">
             <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
             <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>

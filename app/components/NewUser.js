@@ -17,8 +17,9 @@ class NewUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: undefined,
-      password: undefined,
+      username: "",
+      password: "",
+      errorMessage: "",
     };
 
     this.onFormChange = this.onFormChange.bind(this);
@@ -38,7 +39,17 @@ class NewUser extends React.Component {
   }
 
   onSubmit() {
+    if (this.state.username == "" || this.state.password == "") {
+      this.setState({errorMessage: "Please fill out all fields."});
+      return;
+    }
+
     var userID = api.addUser(this.state.username, this.state.password);
+    if (!userID) {
+      this.setState({errorMessage: "Username already exists."});
+      return;
+    }
+
     var user = {
       id: userID,
     };
@@ -69,11 +80,12 @@ class NewUser extends React.Component {
             </Form>
             </Col>
           </Row>
-          <Row>
-            <Button onClick={this.onCancel}>Cancel</Button>
-          </Row>
+          <p className="errorMessage">{this.state.errorMessage}</p>
           <Row>
             <Button onClick={this.onSubmit}>Create Account</Button>
+          </Row>
+          <Row>
+            <Button onClick={this.onCancel}>Cancel</Button>
           </Row>
         </Container>
       </div>

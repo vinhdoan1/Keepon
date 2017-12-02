@@ -16,8 +16,9 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: undefined,
-      password: undefined,
+      username: "",
+      password: "",
+      errorMessage: "",
     };
 
     this.onFormChange = this.onFormChange.bind(this);
@@ -37,6 +38,11 @@ class Login extends React.Component {
   }
 
   onLogin() {
+    if (this.state.username == "" || this.state.password == "") {
+      this.setState({errorMessage: "Please fill out all fields."});
+      return;
+    }
+
     var loggedID = api.login(this.state.username, this.state.password);
     if (loggedID != null) {
       var user = {
@@ -48,6 +54,8 @@ class Login extends React.Component {
       this.props.history.push({
         pathname: '/home',
       });
+    } else {
+      this.setState({errorMessage: "No matching username/password."});
     }
   }
 
@@ -70,6 +78,7 @@ class Login extends React.Component {
               </Col>
             </Row>
           </Form>
+          <p className="errorMessage">{this.state.errorMessage}</p>
           <Row>
             <Button onClick={this.onLogin}>Login</Button>
           </Row>

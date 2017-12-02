@@ -10,6 +10,7 @@ import { ic_search } from 'react-icons-kit/md/ic_search';
 import { connect } from "react-redux";
 import { editcoupon } from "../actions/";
 var api = require('../utils/api');
+var ab = require('../utils/ab');
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-110103238-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -93,9 +94,13 @@ class Home extends React.Component {
       var coupon = {
         id: couponID,
       }
+      var loc = '/addcoupon';
+      if (ab.getExperiment()) {
+        loc += '2'
+      }
       this.props.dispatch(editcoupon(coupon));
       this.props.history.push({
-        pathname: '/addcoupon',
+        pathname: loc,
       });
     }.bind(this);
 

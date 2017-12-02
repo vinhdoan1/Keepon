@@ -38,7 +38,6 @@ class Discover extends React.Component {
 
     filters.push(function(coupon){
       var searchTerm = this.state.zipDisplay;
-      console.log("Search: " + searchTerm);
       if(searchTerm == "")
         return false;
       return (coupon.zip && coupon.zip.includes(searchTerm));

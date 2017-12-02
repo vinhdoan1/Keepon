@@ -1,13 +1,24 @@
 var React = require('react');
 var TopBar = require('./TopBar');
 import { Container, Row, Col } from 'reactstrap';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, InputGroup, InputGroupButton } from 'reactstrap';
 var api = require('../utils/api');
 import { connect } from "react-redux";
 import { editcoupondone } from "../actions/";
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-110103238-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+
+var defaultState1 = {
+  store: "",
+  date: "",
+  location: "",
+};
+
+var defaultState2 = {
+  zip: "",
+  discoverLocation: "",
+}
 
 @connect((store) => {
   return {
@@ -35,6 +46,7 @@ class AddCoupon2 extends React.Component {
         discoverLocation: coupon.discoverLocation,
         picture: coupon.picture,
         isPicture: coupon.isPicture,
+        errorMessage: "",
       };
     } else {
       this.state = {
@@ -48,16 +60,34 @@ class AddCoupon2 extends React.Component {
         discoverLocation: "",
         picture: "",
         isPicture: false,
+        errorMessage: "",
       };
     }
 
     this.onFormChange = this.onFormChange.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onUploadPress = this.onUploadPress.bind(this);
+    this.onCancelImagePress = this.onCancelImagePress.bind(this);
   }
 
   componentDidMount() {
     ReactGA.ga('send', 'event', 'page', 'visit', 'Add Coupon 2');
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(editcoupondone());
+  }
+
+  onUploadPress() {
+    document.getElementById('pictureForm').click();
+  }
+
+  onCancelImagePress() {
+    this.setState({
+      isPicture: false,
+      picture: "",
+    })
   }
 
   onFormChange(e) {
@@ -116,6 +146,31 @@ class AddCoupon2 extends React.Component {
   }
 
   onSubmit() {
+    if (this.state.isPicture) {
+      if (this.state.picture == "") {
+        this.setState({errorMessage: "Please fill out all fields."});
+        return;
+      }
+    }else if (this.state.savings == ""){
+      this.setState({errorMessage: "Please fill out all fields."});
+      return;
+    }
+
+    for (var key in defaultState1) {
+      if (defaultState1[key] == this.state[key]) {
+        this.setState({errorMessage: "Please fill out all fields."});
+        return;
+      }
+    }
+
+    if (this.state.discoverable) {
+      for (key in defaultState2) {
+        if (defaultState2[key] == this.state[key]) {
+          this.setState({errorMessage: "Please fill out all fields."});
+          return;
+        }
+      }
+    }
     var date = new Date(this.state.date);
     var dateUTC = date.getTime();
     var dateAdded = Date.now();
@@ -191,9 +246,16 @@ class AddCoupon2 extends React.Component {
               <Input name="savings" id="savingsForm" placeholder="Describe your deal" value={this.state.savings} disabled={this.state.isPicture}/>
             </FormGroup>
             <FormGroup>
-              <Label for="pictureForm">Or Upload Coupon</Label>
+              <Label for="pictureForm">Or Upload Coupon Image</Label>
               <Input type="file" name="picture" id="pictureForm" accept="image/gif, image/jpeg, image/png"/>
-              <img src={this.state.picture}></img>
+              <div className="imageButtonsGroup">
+                <Button className="imageButtons" onClick={this.onUploadPress}>Upload</Button>
+                {
+                  (this.state.isPicture) &&
+                  <Button className="imageButtons" onClick={this.onCancelImagePress}>Cancel</Button>
+                }
+              </div>
+              <img className="imageDisplay" src={this.state.picture}></img>
             </FormGroup>
             <FormGroup>
               <Label for="storeForm">Store</Label>
@@ -222,8 +284,11 @@ class AddCoupon2 extends React.Component {
             </FormGroup>
 
           </Form>
-          <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
-          <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
+          <p className="errorMessage">{this.state.errorMessage}</p>
+          <div className="add-coupon-buttons">
+            <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
+            <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
+          </div>
         </Container>
       </div>
     )
