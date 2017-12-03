@@ -215,7 +215,7 @@ class AddCoupon2 extends React.Component {
       api.addCouponToDiscoverable(
         this.state.savings,
         this.state.store,
-        this.state.date,
+        dateUTC,
         this.state.category,
         this.state.location,
         this.state.zip,
