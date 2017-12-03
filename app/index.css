@@ -228,4 +228,16 @@ body {
 
 .imageDisplay {
 }
+
+.form-control:focus {
+  border-color: #fad2a1;
+  box-shadow: 0 0 0 0.2rem rgba(250, 210, 161, 0.45);
+}
+
+.expiredModalText {
+  font-size: small;
+  font-style: italic;
+}
+
+
 /* Discover */

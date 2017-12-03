@@ -48,18 +48,18 @@ class Discover extends React.Component {
         <TopBar selected={2} navBarOn={true} history={this.props.history}/>
         <Container>
             <Row>
-              <Col xs={6} sm={6}>
+              <Col xs={5} sm={5}>
               <h1>Discover</h1>
               </Col>
-              <Col xs={4} sm={4}>
+              <Col xs={7} sm={7}>
                 <form onChange={this.onChange} className="zipForm">
                   <FormGroup>
-                    <Input type="text" value={this.state.value} onChange={this.onChange} placeholder="Enter Zipcode"/>
+                    <InputGroup>
+                      <Input type="text" value={this.state.value} onChange={this.onChange} placeholder="Enter Zipcode"/>
+                      <InputGroupAddon onClick={this.onSubmit} className="zipForm"><Icon icon={ic_search}/></InputGroupAddon>
+                    </InputGroup>
                   </FormGroup>
                 </form>
-              </Col>
-              <Col xs={2} sm={2}>
-                <Button onClick={this.onSubmit} className="zipForm">Enter</Button>
               </Col>
             </Row>
             {

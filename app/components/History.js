@@ -28,7 +28,7 @@ class History extends React.Component {
       api.deleteCoupon(userID, couponID);
     }
     buttons.push({
-      buttonText: "Delete Coupon",
+      buttonText: "Delete",
       buttonFunc: deleteCouponFunc,
       buttonColor: "danger",
     })
@@ -37,8 +37,8 @@ class History extends React.Component {
       api.markCoupon(userID, couponID, false);
     }
     buttons.push({
-      buttonText: "Mark as unused",
-      buttonColor: "primary",
+      buttonText: "Mark Unused",
+      buttonColor: "secondary",
       buttonFunc: markCouponUnusedFunc,
     });
 

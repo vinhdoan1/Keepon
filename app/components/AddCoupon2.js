@@ -207,6 +207,8 @@ class AddCoupon2 extends React.Component {
       )
       if (!this.state.isPicture) {
         ReactGA.ga('send', 'event', 'button', 'click', 'Added Coupon with no picture');
+      } else {
+        ReactGA.ga('send', 'event', 'button', 'click', 'Added Coupon with picture');
       }
     }
     if (this.state.discoverable) {

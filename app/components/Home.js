@@ -86,7 +86,7 @@ class Home extends React.Component {
     }
     buttons.push({
       buttonText: "Use Coupon",
-      buttonColor: "primary",
+      buttonColor: "secondary",
       buttonFunc: markCouponFunc,
     });
 
@@ -106,7 +106,7 @@ class Home extends React.Component {
 
     buttons.push({
       buttonText: "Edit Coupon",
-      buttonColor: "primary",
+      buttonColor: "secondary",
       buttonFunc: editCouponFunc,
     });
 
@@ -133,7 +133,7 @@ class Home extends React.Component {
                 </FormGroup>
               </Col>
               <Col xs={3} sm={2}>
-                <Button outline color="primary" onClick={this.toggleSortModal}>Sort</Button>
+                <Button color="secondary" onClick={this.toggleSortModal}>Sort</Button>
               </Col>
             </Row>
           <CouponData

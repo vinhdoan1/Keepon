@@ -117,15 +117,21 @@ class CouponData extends React.Component {
       var singleRowComponent = couponRow.map(function(coupon, j) {
         var id = coupon.id;
         var couponCardClass = ""
+        var expiredText = "";
         if (coupon.date < Date.now()){
           couponCardClass += "expired ";
+          expiredText = "Expired";
         }
         if (coupon.date < Date.now() + 7*86400000 ) {
           couponCardClass += "expiringSoon";
+          if (expiredText == "") {
+            expiredText = "Expiring Soon";
+          }
         }
         return (
           <Col xs={(12 / couponsPerRow) + ""} key={j}>
             <Card body onClick={() => {this.toggleModal(id, true)}} className={couponCardClass}>
+              <CardSubtitle className="expiredModalText">{expiredText}&nbsp;</CardSubtitle>
               <CardTitle>
                 {(coupon.isPicture) && "Coupon Image"}
                 {(!coupon.isPicture) && coupon.savings}
