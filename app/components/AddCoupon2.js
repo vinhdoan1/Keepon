@@ -211,7 +211,7 @@ class AddCoupon2 extends React.Component {
         ReactGA.ga('send', 'event', 'button', 'click', 'Added Coupon with picture');
       }
     }
-    if (this.state.discoverable) {
+    if (!this.props.couponToEdit.editing && this.state.discoverable) {
       api.addCouponToDiscoverable(
         this.state.savings,
         this.state.store,
@@ -233,8 +233,10 @@ class AddCoupon2 extends React.Component {
 
   render() {
     var headerText = "Add Coupon";
+    var submitButton = "Submit";
     if (this.props.couponToEdit.editing) {
       headerText = "Edit Coupon";
+      submitButton = "Edit";
     }
 
     return (
@@ -289,7 +291,7 @@ class AddCoupon2 extends React.Component {
           <p className="errorMessage">{this.state.errorMessage}</p>
           <div className="add-coupon-buttons">
             <Button onClick={this.onCancel} className="addCouponButton">Cancel</Button>
-            <Button onClick={this.onSubmit} className="addCouponButton">Submit</Button>
+            <Button onClick={this.onSubmit} className="addCouponButton">{submitButton}</Button>
           </div>
         </Container>
       </div>
