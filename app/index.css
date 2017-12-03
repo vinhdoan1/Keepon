@@ -239,5 +239,9 @@ body {
   font-style: italic;
 }
 
+.list-group-item.active {
+  background-color: #f5a84b;
+  border-color: #f5a84b;
+}
 
 /* Discover */

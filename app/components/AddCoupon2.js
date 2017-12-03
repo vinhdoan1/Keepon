@@ -245,7 +245,7 @@ class AddCoupon2 extends React.Component {
           <Form onChange={this.onFormChange}>
             <FormGroup>
               <Label for="savingsForm">Enter Savings</Label>
-              <Input name="savings" id="savingsForm" placeholder="Describe your deal" value={this.state.savings} disabled={this.state.isPicture}/>
+              <Input name="savings" id="savingsForm" placeholder="Describe your deal" value={this.state.savings}/>
             </FormGroup>
             <FormGroup>
               <Label for="pictureForm">Or Upload Coupon Image</Label>

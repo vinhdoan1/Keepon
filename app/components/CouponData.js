@@ -133,8 +133,8 @@ class CouponData extends React.Component {
             <Card body onClick={() => {this.toggleModal(id, true)}} className={couponCardClass}>
               <CardSubtitle className="expiredModalText">{expiredText}&nbsp;</CardSubtitle>
               <CardTitle>
-                {(coupon.isPicture) && "Coupon Image"}
-                {(!coupon.isPicture) && coupon.savings}
+                {(coupon.isPicture && coupon.savings == "") && "Coupon Image"}
+                {(!coupon.isPicture || (coupon.isPicture && coupon.savings != "")) && coupon.savings}
               </CardTitle>
               <CardSubtitle>{coupon.store}</CardSubtitle>
               <CardText>{"Exp. " + this.getDateString(coupon.date)}</CardText>
@@ -338,8 +338,6 @@ class CouponData extends React.Component {
       filteredData = filteredData.sort(this.getSortFunction(0));
     }
 
-
-
     var couponComponents;
     if (this.props.categorize) {
         switch(this.props.sortFunc) {
@@ -373,8 +371,8 @@ class CouponData extends React.Component {
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
           <ModalHeader toggle={() => {this.toggleModal(id, false)}}>
-            {(coupon.isPicture) && "Coupon Image"}
-            {(!coupon.isPicture) && coupon.savings}
+            {(coupon.isPicture && coupon.savings == "") && "Coupon Image"}
+            {(!coupon.isPicture || (coupon.isPicture && coupon.savings != "")) && coupon.savings}
           </ModalHeader>
           {
             (coupon.isPicture) &&
