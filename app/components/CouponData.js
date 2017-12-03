@@ -62,6 +62,7 @@ class CouponData extends React.Component {
         dateAdded: coupons[userID].dateAdded,
         isPicture: coupons[userID].isPicture,
         picture: coupons[userID].picture,
+        discoverLocation: coupons[userID].discoverLocation,
       })
       couponModals[userID] = false;
     }
@@ -368,6 +369,11 @@ class CouponData extends React.Component {
         }.bind(this));
       }
 
+      var coupoonLocation = coupon.location;
+      if (this.props.discoverCoupons) {
+        coupoonLocation = coupon.discoverLocation;
+      }
+
       return (
         <Modal key={i} isOpen={this.state.couponModals[id]} toggle={() => {this.toggleModal(id, false)}}>
           <ModalHeader toggle={() => {this.toggleModal(id, false)}}>
@@ -390,7 +396,7 @@ class CouponData extends React.Component {
             Date Added: {this.getDateString(coupon.dateAdded)}
           </ModalBody>
           <ModalBody>
-            Location: {coupon.location}
+            Location: {coupoonLocation}
           </ModalBody>
           <ModalFooter className="modalButtons">
             {couponModalButtons}

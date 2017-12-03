@@ -43,6 +43,10 @@ class Discover extends React.Component {
       return (coupon.zip && coupon.zip.includes(searchTerm));
     }.bind(this));
 
+    filters.push(function(coupon){
+      return (coupon.date >= Date.now());
+    }.bind(this));
+
     return (
       <div className="discover-container">
         <TopBar selected={2} navBarOn={true} history={this.props.history}/>
